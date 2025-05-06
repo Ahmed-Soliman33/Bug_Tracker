@@ -48,6 +48,7 @@ if (!isset($_SESSION["userRole"])) {
 
     <?php
     $userName = $_SESSION["userName"];
+    $currentPage = "admin";
     require_once '../layouts/header.php';
     ?>
 
@@ -75,7 +76,12 @@ if (!isset($_SESSION["userRole"])) {
       <div class="app-content">
         <div class="container-fluid">
 
-          <?php if ($page_title == "viewBugs") {
+          <?php
+
+
+
+
+          if ($page_title == "viewBugs") {
 
             require_once '../viewBugs.php';
 
@@ -93,64 +99,68 @@ if (!isset($_SESSION["userRole"])) {
             require_once '../viewProjects.php';
           } else if ($page_title == 'viewStaff') {
 
+
             require_once '../viewStaff.php';
+
+          } else if ($page_title == 'chat') {
+            require_once '../chat.php';
           } else {
             ?>
 
-                      <div class="row">
-                        <div class="col-lg-3 col-6">
-                          <!-- small box -->
-                          <div class="small-box text-bg-primary">
-                            <div class="p-4 text-center">
-                              <h3 class="">View Bugs</h3>
+                        <div class="row">
+                          <div class="col-lg-3 col-6">
+                            <!-- small box -->
+                            <div class="small-box text-bg-primary">
+                              <div class="p-4 text-center">
+                                <h3 class="">View Bugs</h3>
+                              </div>
+                              <a href="index.php?page=viewBugs"
+                                class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+                                Go to page <i class="bi bi-link-45deg"></i>
+                              </a>
                             </div>
-                            <a href="index.php?page=viewBugs"
-                              class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
-                              Go to page <i class="bi bi-link-45deg"></i>
-                            </a>
                           </div>
-                        </div>
-                        <!-- ./col -->
-                        <div class="col-lg-3 col-6">
-                          <!-- small box -->
-                          <div class="small-box text-bg-success">
-                            <div class="p-4 text-center">
-                              <h3 class="">Add Project</h3>
+                          <!-- ./col -->
+                          <div class="col-lg-3 col-6">
+                            <!-- small box -->
+                            <div class="small-box text-bg-success">
+                              <div class="p-4 text-center">
+                                <h3 class="">Add Project</h3>
+                              </div>
+                              <a href="index.php?page=addProject"
+                                class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+                                Go to page <i class="bi bi-link-45deg"></i>
+                              </a>
                             </div>
-                            <a href="index.php?page=addProject"
-                              class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
-                              Go to page <i class="bi bi-link-45deg"></i>
-                            </a>
                           </div>
-                        </div>
-                        <!-- ./col -->
-                        <div class="col-lg-3 col-6">
-                          <!-- small box -->
-                          <div class="small-box text-white bg-warning">
-                            <div class="p-4 text-center">
-                              <h3 class="">Add Staff</h3>
+                          <!-- ./col -->
+                          <div class="col-lg-3 col-6">
+                            <!-- small box -->
+                            <div class="small-box text-white bg-warning">
+                              <div class="p-4 text-center">
+                                <h3 class="">Add Staff</h3>
+                              </div>
+                              <a href="index.php?page=addStaff"
+                                class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+                                Go to page <i class="bi bi-link-45deg"></i>
+                              </a>
                             </div>
-                            <a href="index.php?page=addStaff"
-                              class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
-                              Go to page <i class="bi bi-link-45deg"></i>
-                            </a>
                           </div>
-                        </div>
-                        <!-- ./col -->
-                        <div class="col-lg-3 col-6">
-                          <!-- small box -->
-                          <div class="small-box text-bg-danger">
-                            <div class="p-4 text-center">
-                              <h3 class="">Add Bug</h3>
+                          <!-- ./col -->
+                          <div class="col-lg-3 col-6">
+                            <!-- small box -->
+                            <div class="small-box text-bg-danger">
+                              <div class="p-4 text-center">
+                                <h3 class="">Add Bug</h3>
+                              </div>
+                              <a href="index.php?page=addBug"
+                                class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+                                Go to page <i class="bi bi-link-45deg"></i>
+                              </a>
                             </div>
-                            <a href="index.php?page=addBug"
-                              class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
-                              Go to page <i class="bi bi-link-45deg"></i>
-                            </a>
                           </div>
+                          <!-- ./col -->
                         </div>
-                        <!-- ./col -->
-                      </div>
             <?php
           }
           ?>
