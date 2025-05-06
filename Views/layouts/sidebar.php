@@ -56,28 +56,39 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <p>
-                            Staff
-                            <i class="nav-arrow bi bi-chevron-right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
+                <?php 
+                
+                if ((isset($_SESSION["userRole"]) && $_SESSION["userRole"] == "admin")) {
+
+                    ?>
+
+
                         <li class="nav-item">
-                            <a href="../<?php echo $currentPage ?>/index.php?page=viewStaff" class="nav-link">
-                                <i class="nav-icon bi bi-circle"></i>
-                                <p>View Staff</p>
+                            <a href="#" class="nav-link">
+                                <p>
+                                    Staff
+                                    <i class="nav-arrow bi bi-chevron-right"></i>
+                                </p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="../<?php echo $currentPage ?>/index.php?page=viewStaff" class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>View Staff</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="../<?php echo $currentPage ?>/index.php?page=addStaff" class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p>Add Staff</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
-                        <li class="nav-item">
-                            <a href="../<?php echo $currentPage ?>/index.php?page=addStaff" class="nav-link">
-                                <i class="nav-icon bi bi-circle"></i>
-                                <p>Add Staff</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                    <?php
+                }
+                
+                ?>
                 <li class="nav-item">
                     <a href="../../Views/auth/login.php?logout" class="nav-link text-danger">
                         <p>

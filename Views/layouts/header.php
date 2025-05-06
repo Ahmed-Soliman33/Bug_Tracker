@@ -1,3 +1,4 @@
+
 <header>
     <nav class="app-header navbar navbar-expand bg-body">
         <div class="container-fluid">
@@ -13,7 +14,7 @@
             </ul>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item dropdown">
-                    <a class="nav-link" data-bs-toggle="dropdown" href="#">
+                    <a class="nav-link" data-bs-toggle="dropdown" href="../<?php echo $currentPage ?>/index.php?page=chat">
                         <i class="bi bi-chat-text"></i>
                         <span class="navbar-badge badge text-bg-danger">3</span>
                     </a>
