@@ -1,3 +1,25 @@
+<?php
+require_once '../../Models/Project.php';
+require_once '../../Controllers/ProjectController.php';
+$errMsg = "";
+
+if (
+    isset($_POST['project_title']) && isset($_POST['project_type'])
+    && isset($_POST['project_description'])
+) {
+    $project = new Project($_POST['project_title'], $_POST['project_type'], $_POST['project_description']);
+    $projectController = new ProjectController;
+
+    $result = $projectController->addProject($project);
+    if (!$result) {
+        $errMsg = "Error in Adding Project";
+    }
+
+}
+
+?>
+
+
 <div class="app-content-header">
     <div class="container-fluid">
         <div class="row">
@@ -9,73 +31,47 @@
                     <li class="breadcrumb-item"><a href="">Home / Add Project</a></li>
                 </ol>
             </div>
+            <?php
+            if ($errMsg !== "") {
+                echo "<h4 class='alert alert-danger'>$errMsg</h4>";
+            }
+            ?>
         </div>
     </div>
 </div>
 <div class="app-content">
     <div class="container-fluid">
-        <!--begin::Form Validation-->
         <div class="card card-info card-outline mb-4">
-            <!--begin::Header-->
-            <div class="card-header">
-                <div class="card-title">Form Validation</div>
-            </div>
-            <!--end::Header-->
-            <!--begin::Form-->
-            <form class="needs-validation" novalidate>
+            <form class="needs-validation" action="index.php?page=addProject" method="post" novalidate>
                 <div class="card-body">
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label for="validationCustom01" class="form-label">First name</label>
-                            <input type="text" class="form-control" id="validationCustom01" value="Mark" required />
-                            <div class="valid-feedback">Looks good!</div>
+                            <label for="validationCustom01" class="form-label">Project Title</label>
+                            <input type="text" name="project_title" class="form-control" id="validationCustom01"
+                                required />
+                            <div class="valid-feedback"></div>
                         </div>
                         <div class="col-md-6">
-                            <label for="validationCustom02" class="form-label">Last name</label>
-                            <input type="text" class="form-control" id="validationCustom02" value="Otto" required />
-                            <div class="valid-feedback">Looks good!</div>
+                            <label for="validationCustom02" class="form-label">Project Description</label>
+                            <textarea name="project_description" class="form-control" id="validationCustom02" rows="4"
+                                required></textarea>
+                            <div class="valid-feedback"></div>
                         </div>
                         <div class="col-md-6">
-                            <label for="validationCustomUsername" class="form-label">Username</label>
-                            <div class="input-group has-validation">
-                                <span class="input-group-text" id="inputGroupPrepend">@</span>
-                                <input type="text" class="form-control" id="validationCustomUsername"
-                                    aria-describedby="inputGroupPrepend" required />
-                                <div class="invalid-feedback">Please choose a username.</div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="validationCustom03" class="form-label">City</label>
-                            <input type="text" class="form-control" id="validationCustom03" required />
-                            <div class="invalid-feedback">Please provide a valid city.</div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="validationCustom04" class="form-label">State</label>
-                            <select class="form-select" id="validationCustom04" required>
+                            <label for="validationCustom04" class="form-label">Project type</label>
+                            <select class="form-select" name="project_type" id="validationCustom04" required>
                                 <option selected disabled value="">Choose...</option>
-                                <option>...</option>
+                                <option value="web">Web Application</option>
+                                <option value="mobile">mobile Application</option>
+                                <option value="desktop">desktop Application</option>
                             </select>
-                            <div class="invalid-feedback">Please select a valid state.</div>
+
+                            <div class="invalid-feedback">Please select a valid Type.</div>
                         </div>
-                        <div class="col-md-6">
-                            <label for="validationCustom05" class="form-label">Zip</label>
-                            <input type="text" class="form-control" id="validationCustom05" required />
-                            <div class="invalid-feedback">Please provide a valid zip.</div>
+
+                        <div class="card-footer">
+                            <button class="btn btn-success" type="submit">Submit form</button>
                         </div>
-                        <div class="col-12">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required />
-                                <label class="form-check-label" for="invalidCheck">
-                                    Agree to terms and conditions
-                                </label>
-                                <div class="invalid-feedback">You must agree before submitting.</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <button class="btn btn-info" type="submit">Submit form</button>
-                </div>
             </form>
 
             <script>

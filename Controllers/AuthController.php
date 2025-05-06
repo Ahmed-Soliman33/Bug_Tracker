@@ -18,12 +18,12 @@ class AuthController
                 return false;
             } else {
                 if (count($result) == 0) {
-                    session_start();
+                    // session_start();
                     $_SESSION["errMsg"] = "You have entered wrong email or password";
                     $this->db->closeConnection();
                     return false;
                 } else {
-                    session_start();
+                    // session_start();
                     $_SESSION["userId"] = $result[0]["id"];
                     $_SESSION["userName"] = $result[0]["name"];
                     $_SESSION["userRole"] = $result[0]["role"];

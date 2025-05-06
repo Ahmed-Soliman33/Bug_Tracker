@@ -1,8 +1,8 @@
 CREATE TABLE users (
-    user_id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-    user_fullname VARCHAR(256),
-    user_email VARCHAR(256) NOT NULL UNIQUE,
-    user_pwd VARCHAR(256) NOT NULL,
+    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    name VARCHAR(256),
+    email VARCHAR(256) NOT NULL UNIQUE,
+    password VARCHAR(256) NOT NULL,
     role ENUM('customer', 'admin', 'staff') NOT NULL DEFAULT 'customer',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
