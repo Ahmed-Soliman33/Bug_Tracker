@@ -139,20 +139,8 @@ require_once "../../Controllers/Utils.php";
                             </a>
                           </div>
                         </div>
-                        <!-- ./col -->
-                        <div class="col-lg-3 col-6">
-                          <!-- small box -->
-                          <div class="small-box text-bg-danger">
-                            <div class="p-4 text-center">
-                              <h3 class="">Solution Bugs</h3>
-                            </div>
-                            <a href="index.php?page=addBug"
-                              class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
-                              Go to page <i class="bi bi-link-45deg"></i>
-                            </a>
-                          </div>
-                        </div>
-                        <!-- ./col -->
+                       
+                      
                       </div>
             <?php
           }

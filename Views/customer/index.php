@@ -48,6 +48,7 @@ if (!isset($_SESSION["userRole"])) {
 
     <?php
     $userName = $_SESSION["userName"];
+    $currentPage = "customer";
     require_once '../layouts/header.php';
     ?>
 
@@ -94,7 +95,17 @@ if (!isset($_SESSION["userRole"])) {
           } else if ($page_title == 'viewStaff') {
 
             require_once '../viewStaff.php';
-          } else {
+          } 
+          else if($page_title == 'chat'){
+            require_once '../chat.php';
+          
+          
+          }
+          
+          
+          
+          
+          else {
             ?>
 
                       <div class="row">
@@ -152,6 +163,22 @@ if (!isset($_SESSION["userRole"])) {
                           </div>
                         </div>
                         <!-- ./col -->
+
+                        <div class="col-lg-3 col-7" > 
+                          <!-- small box -->
+                          <div class="small-box text-white " style="background-color: #222;">
+                          
+                            <div class="p-4 text-center">
+                              <h3 class="">Messages</h3>
+                            </div>
+                           
+                            <a href="index.php?page=chat"
+                              class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+                              Go to page <i class="bi bi-link-45deg"></i>
+                            </a>
+                          </div>
+                        </div>
+                       
                       </div>
             <?php
           }
