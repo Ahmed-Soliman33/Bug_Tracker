@@ -1,4 +1,13 @@
 <?php
+$page_title = "";
+if (isset($_GET["page"])) {
+  if (!empty($_GET["page"])) {
+    $page_title = $_GET["page"];
+  }
+}
+
+
+
 session_start();
 if (!isset($_SESSION["userRole"])) {
 
@@ -33,132 +42,21 @@ if (!isset($_SESSION["userRole"])) {
 <!--begin::Body-->
 
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
-  <!--begin::App Wrapper-->
   <div class="app-wrapper">
-    <!--begin::Header-->
-    <nav class="app-header navbar navbar-expand bg-body">
-      <!--begin::Container-->
-      <div class="container-fluid">
-        <!--begin::Start Navbar Links-->
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
-              <i class="bi bi-list"></i>
-            </a>
-          </li>
-          <li class="nav-item d-none d-md-block">
-            <a href="index.php" class="nav-link">Home</a>
-          </li>
-        </ul>
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item dropdown">
-            <a class="nav-link" data-bs-toggle="dropdown" href="#">
-              <i class="bi bi-chat-text"></i>
-              <span class="navbar-badge badge text-bg-danger">3</span>
-            </a>
-          </li>
-          <li class="nav-item dropdown user-menu">
-            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-              <img src="../assets/img/user2-160x160.jpg" class="user-image rounded-circle shadow" alt="User Image" />
-              <span class="d-none d-md-inline">Ahmed Soliman</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
 
-    <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
-      <!--begin::Sidebar Brand-->
-      <div class="sidebar-brand">
-        <!--begin::Brand Link-->
-        <a href="../index.html" class="brand-link">
-          <!--begin::Brand Image-->
-          <img src="../assets/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image opacity-75 shadow" />
-          <span class="brand-text fw-light">Bug Tracker</span>
-        </a>
-      </div>
-      <div class="sidebar-wrapper">
-        <nav class="mt-2">
-          <!--begin::Sidebar Menu-->
-          <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <p>
-                  Bugs
-                  <i class="nav-arrow bi bi-chevron-right"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="viewBugs.php" class="nav-link">
-                    <i class="nav-icon bi bi-circle"></i>
-                    <p>View Bugs</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="addBug.php" class="nav-link">
-                    <i class="nav-icon bi bi-circle"></i>
-                    <p>Add Bug</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <p>
-                  Projects
-                  <i class="nav-arrow bi bi-chevron-right"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="viewProjects.php" class="nav-link">
-                    <i class="nav-icon bi bi-circle"></i>
-                    <p>View Projects</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="addProject.php" class="nav-link">
-                    <i class="nav-icon bi bi-circle"></i>
-                    <p>Add Project</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <p>
-                  Staff
-                  <i class="nav-arrow bi bi-chevron-right"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="viewStaff.php" class="nav-link">
-                    <i class="nav-icon bi bi-circle"></i>
-                    <p>View Staff</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="addStaff.php" class="nav-link">
-                    <i class="nav-icon bi bi-circle"></i>
-                    <p>Add Staff</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="../auth/login.php" class="nav-link text-danger">
-                <p>
-                  Logout
-                </p>
-                <i class="nav-icon bi bi-box-arrow-in-right"></i>
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </aside>
+
+
+    <?php
+    $userName = $_SESSION["userName"];
+    require_once '../layouts/header.php';
+    ?>
+
+    <!-- Side Bar -->
+    <?php
+    $currentPage = "admin";
+    require_once '../layouts/sidebar.php';
+    ?>
+
     <main class="app-main">
       <div class="app-content-header">
         <div class="container-fluid">
@@ -176,75 +74,96 @@ if (!isset($_SESSION["userRole"])) {
       </div>
       <div class="app-content">
         <div class="container-fluid">
-          <div class="row">
-            <div class="col-lg-3 col-6">
-              <!-- small box -->
-              <div class="small-box text-bg-primary">
-                <div class="p-4 text-center">
-                  <h3 class="">View Bugs</h3>
-                </div>
-                <a href="viewBugs.php"
-                  class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
-                  Go to page <i class="bi bi-link-45deg"></i>
-                </a>
-              </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-              <!-- small box -->
-              <div class="small-box text-bg-success">
-                <div class="p-4 text-center">
-                  <h3 class="">Add Project</h3>
-                </div>
-                <a href="addProject.php"
-                  class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
-                  Go to page <i class="bi bi-link-45deg"></i>
-                </a>
-              </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-              <!-- small box -->
-              <div class="small-box text-white bg-warning">
-                <div class="p-4 text-center">
-                  <h3 class="">Add Staff</h3>
-                </div>
-                <a href="addStaff.php"
-                  class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
-                  Go to page <i class="bi bi-link-45deg"></i>
-                </a>
-              </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-6">
-              <!-- small box -->
-              <div class="small-box text-bg-danger">
-                <div class="p-4 text-center">
-                  <h3 class="">Add Bug</h3>
-                </div>
-                <a href="addBug.php"
-                  class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
-                  Go to page <i class="bi bi-link-45deg"></i>
-                </a>
-              </div>
-            </div>
-            <!-- ./col -->
-          </div>
+
+          <?php if ($page_title == "viewBugs") {
+
+            require_once '../viewBugs.php';
+
+          } else if ($page_title == 'addProject') {
+
+            require_once '../addProject.php';
+          } else if ($page_title == 'addStaff') {
+
+            require_once '../addStaff.php';
+          } else if ($page_title == 'addBug') {
+
+            require_once '../addBug.php';
+          } else if ($page_title == 'viewProjects') {
+
+            require_once '../viewProjects.php';
+          } else if ($page_title == 'viewStaff') {
+
+            require_once '../viewStaff.php';
+          } else {
+            ?>
+
+                      <div class="row">
+                        <div class="col-lg-3 col-6">
+                          <!-- small box -->
+                          <div class="small-box text-bg-primary">
+                            <div class="p-4 text-center">
+                              <h3 class="">View Bugs</h3>
+                            </div>
+                            <a href="index.php?page=viewBugs"
+                              class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+                              Go to page <i class="bi bi-link-45deg"></i>
+                            </a>
+                          </div>
+                        </div>
+                        <!-- ./col -->
+                        <div class="col-lg-3 col-6">
+                          <!-- small box -->
+                          <div class="small-box text-bg-success">
+                            <div class="p-4 text-center">
+                              <h3 class="">Add Project</h3>
+                            </div>
+                            <a href="index.php?page=addProject"
+                              class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+                              Go to page <i class="bi bi-link-45deg"></i>
+                            </a>
+                          </div>
+                        </div>
+                        <!-- ./col -->
+                        <div class="col-lg-3 col-6">
+                          <!-- small box -->
+                          <div class="small-box text-white bg-warning">
+                            <div class="p-4 text-center">
+                              <h3 class="">Add Staff</h3>
+                            </div>
+                            <a href="index.php?page=addStaff"
+                              class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+                              Go to page <i class="bi bi-link-45deg"></i>
+                            </a>
+                          </div>
+                        </div>
+                        <!-- ./col -->
+                        <div class="col-lg-3 col-6">
+                          <!-- small box -->
+                          <div class="small-box text-bg-danger">
+                            <div class="p-4 text-center">
+                              <h3 class="">Add Bug</h3>
+                            </div>
+                            <a href="index.php?page=addBug"
+                              class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+                              Go to page <i class="bi bi-link-45deg"></i>
+                            </a>
+                          </div>
+                        </div>
+                        <!-- ./col -->
+                      </div>
+            <?php
+          }
+          ?>
+
+
         </div>
     </main>
-    <footer class="app-footer" style="font-size: 14px">
-      <div class="float-end d-none d-sm-inline" style="font-size: 14px">
-        Anything you want
-      </div>
-      <strong style="font-size: 14px">
-        Copyright &copy; 2014-2024&nbsp;
-        <a href="./general.html" class="text-decoration-none">Bug Tracker</a>.
-      </strong>
-      All rights reserved.
-      <!--end::Copyright-->
-    </footer>
-  </div>
+    <!-- Footer -->
+    <?php
+    require_once '../layouts/footer.php';
+    ?>
 
+  </div>
   <script src="../assets/js/adminlte.js"></script>
 </body>
 
