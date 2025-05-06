@@ -150,6 +150,14 @@ if (!isset($_SESSION["userRole"])) {
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-item">
+                            <a href="../auth/login.php" class="nav-link text-danger">
+                                <p>
+                                    Logout
+                                </p>
+                                <i class="nav-icon bi bi-box-arrow-in-right"></i>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
             </div>
