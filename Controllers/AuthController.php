@@ -26,11 +26,9 @@ class AuthController
                     session_start();
                     $_SESSION["userId"] = $result[0]["id"];
                     $_SESSION["userName"] = $result[0]["name"];
-                    if ($result[0]["roleId"] == 1) {
-                        $_SESSION["userRole"] = "admin";
-                    } else {
-                        $_SESSION["userRole"] = "customer";
-                    }
+                    $_SESSION["userRole"] = $result[0]["role"];
+
+
                     $this->db->closeConnection();
                     return true;
                 }

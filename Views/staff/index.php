@@ -1,7 +1,6 @@
 <?php
 session_start();
 if (!isset($_SESSION["userRole"])) {
-
     header("location: ../auth/login.php ");
 } else {
     if ($_SESSION["userRole"] != "staff") {
