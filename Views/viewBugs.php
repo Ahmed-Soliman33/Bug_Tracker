@@ -117,6 +117,12 @@ if (isset($_SESSION["userRole"])) {
                                         ?>
                                         <td><?php echo $bug['priority']; ?></td>
                                         <td><?php echo $bug['created_at']; ?> </td>
+                                        <td> 
+                                            <?php
+                                            require '../layouts/buttons.php';
+
+                                            ?>
+                                        </td>
                                     </tr>
                                     <?php
                                 }
@@ -137,5 +143,10 @@ if (isset($_SESSION["userRole"])) {
 
             </div>
         </div>
+        <!-- <div class="timeline-footer">
+            <a class="btn btn-danger btn-sm">Delete</a>
+        </div> -->
+
+
     </div>
 </div>

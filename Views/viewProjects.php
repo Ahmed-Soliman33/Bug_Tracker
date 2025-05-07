@@ -72,8 +72,14 @@ if (!$result) {
                                                 <?php echo $project['project_type']; ?>
                                             </div>
                                         </td>
-                                        <td><span
-                                                style="font-size: 15px; color: #444;"><?php echo $project['project_description']; ?></span>
+                                        <td style="max-width: 400px;"><span
+                                                style="font-size: 15px; color: #444; "><?php echo $project['project_description']; ?></span>
+                                        </td>
+                                        <td> 
+                                            <?php
+                                            require '../layouts/buttons.php';
+
+                                            ?>
                                         </td>
                                     </tr>
                                     <?php

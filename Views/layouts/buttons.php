@@ -1,0 +1,2 @@
+<i class="bi bi-pencil-square text-info" style="cursor: pointer; margin-right: 2px;  font-size: 18px; "></i>
+<i class="bi bi-archive-fill  " style="cursor: pointer; font-size: 18px; color: #e01123; "></i>
