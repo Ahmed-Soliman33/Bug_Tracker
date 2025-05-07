@@ -1,7 +1,7 @@
 <?php
 require_once '../../Controllers/ProjectController.php';
 $errMsg = "";
-$projects;
+$projects = [];
 
 
 $projectController = new ProjectController;
@@ -31,45 +31,66 @@ if (!$result) {
         </div>
         <div class="">
             <div class="card mb-4">
-                <div class="card-header">
-                    <h3 class="card-title">Projects Table</h3>
-                </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th style="width: 10px">#</th>
-                                <th>Project</th>
-                                <th>Type</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($projects as $project) {
 
-                                ?>
-                                <tr class="align-middle">
-                                    <td><?php echo $project['project_id']; ?></td>
-                                    <td style="font-size: 18px; font-weight: semibold">
-                                        <?php echo $project['project_title']; ?>
-                                    </td>
-                                    <td>
-                                        <div class="bg-primary text-center rounded text-white"
-                                            style="width: 55% ; font-size: 18px; font-weight: semibold">
-                                            <?php echo $project['project_type']; ?>
-                                        </div>
-                                    </td>
-                                    <td><span class="badge text-bg-danger"
-                                            style="font-size: 14px;"><?php echo $project['project_description']; ?></span>
-                                    </td>
+
+
+                    <?php
+
+                    if (count($projects) > 0) {
+
+                        ?>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10px">#</th>
+                                    <th>Project</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
                                 </tr>
-                                <?php
+                            </thead>
+                            <tbody>
+                                <?php foreach ($projects as $project) {
 
-                            } ?>
+                                    ?>
+                                    <tr class="align-middle">
+                                        <td><?php echo $project['project_id']; ?></td>
+                                        <td class="text-danger fw-bold fs-5" style="font-size: 18px; font-weight: semibold">
+                                            <?php echo $project['project_title']; ?>
+                                        </td>
+                                        <td>
+                                            <div <?php
+                                            if ($project['project_type'] == "web") {
+                                                echo "class='text-bg-success p-1 text-center' style='margin-top: 10px; border-radius: 50px;'";
+                                            } else if ($project["project_type"] == "mobile") {
+                                                echo "class='text-bg-warning text-center p-1'  style='margin-top: 10px; border-radius: 50px;'";
+                                            } else {
+                                                echo "class='text-bg-info text-center p-1'  style='margin-top: 10px; border-radius: 50px;'";
+                                            }
+                                            ?>>
+                                                <?php echo $project['project_type']; ?>
+                                            </div>
+                                        </td>
+                                        <td><span
+                                                style="font-size: 15px; color: #444;"><?php echo $project['project_description']; ?></span>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                } ?>
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                        <?php
+                    } else {
+                        ?>
+                        <h4 class='alert alert-danger'>No Projects Found</h4>
+                        <?php
+                    }
+                    ?>
+
+
+
                 </div>
             </div>
         </div>

@@ -1,34 +1,12 @@
 <?php
 
-
+require_once 'User.php';
 
 class Staff extends User
 {
-
-
-    public function __construct()
+    public function __construct($name, $email, $password, $role)
     {
-
+        parent::__construct($name, $email, $password, $role);
     }
-
-
-
-
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
 ?>

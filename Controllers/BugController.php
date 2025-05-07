@@ -1,21 +1,26 @@
 <?php
 
-require_once '../../Models/Project.php';
-require_once '../../Controllers/DBController.php';
 
-class ProjectController
+require_once 'DBController.php';
+require_once '../../Models/Bug.php';
+class BugController
 {
     protected $db;
 
 
-    public function addProject(Project $project)
+    public function addBug(Bug $bug)
     {
         $this->db = new DBController;
         if ($this->db->openConnection()) {
-            $title = $project->getProjectTitle();
-            $type = $project->getProjectType();
-            $desc = $project->getProjectDesc();
-            $query = "INSERT INTO projects (project_title, project_type, project_description) VALUES ('$title','$type','$desc')";
+            $bugName = $bug->getBugName();
+            $category = $bug->getCategory();
+            $details = $bug->getDetails();
+            $assignedTo = $bug->getAssignedTo();
+            $priority = $bug->getPriority();
+            $projectId = $bug->getProjectId();
+            $status = $bug->getStatus();
+
+            $query = "INSERT INTO bugs (bug_name, project_id , category , details , assigned_to , status , priority) VALUES ('$bugName', $projectId ,'$category','$details', $assignedTo , '$status' , '$priority')";
 
             $result = $this->db->insert($query);
             if ($result) {
@@ -32,12 +37,118 @@ class ProjectController
 
 
     }
-    public function getAllProjects()
+
+    public function getAllBugs()
     {
         $this->db = new DBController;
         if ($this->db->openConnection()) {
-            $query = "select * from projects";
+            $query = "SELECT b.*, p.project_title, u.name AS staffName FROM bugs b LEFT JOIN projects p ON b.project_id = p.project_id LEFT JOIN users u ON b.assigned_to = u.id;";
 
+            $result = $this->db->select($query);
+            if ($result) {
+                $this->db->closeConnection();
+                return $result;
+            } else {
+                $this->db->closeConnection();
+                return false;
+            }
+        } else {
+            echo "Error in Database Connection";
+            return false;
+        }
+    }
+
+    public function assignStaffToBug($bugId, $staffId)
+    {
+        $this->db = new DBController;
+        if ($this->db->openConnection()) {
+            $query = "INSERT INTO bug_staff (bug_id, staff_id) VALUES ($bugId , $staffId)";
+            $result = $this->db->insert($query);
+            if ($result) {
+                $this->db->closeConnection();
+                return true;
+            } else {
+                $this->db->closeConnection();
+                return false;
+            }
+        } else {
+            echo "Error in Database Connection";
+            return false;
+        }
+
+
+    }
+
+
+    public function removeStaffFromBug($bugId, $staffId)
+    {
+        $this->db = new DBController;
+        if ($this->db->openConnection()) {
+            $query = "DELETE FROM bug_staff WHERE bug_id = $bugId AND staff_id = $staffId";
+            $result = $this->db->delete($query);
+            if ($result) {
+                $this->db->closeConnection();
+                return true;
+            } else {
+                $this->db->closeConnection();
+                return false;
+            }
+        } else {
+            echo "Error in Database Connection";
+            return false;
+        }
+
+
+    }
+    public function getAllBugsWithStaff()
+    {
+        $this->db = new DBController;
+        if ($this->db->openConnection()) {
+            $query = "SELECT 
+                        b.id,
+                        b.bug_name,
+                        b.category,
+                        b.details,
+                        b.status,
+                        b.priority,
+                        p.project_name,
+                        s.staff_name AS staff_name
+                      FROM 
+                        bugs b
+                      LEFT JOIN 
+                        projects p ON b.project_id = p.project_id
+                      LEFT JOIN 
+                        bug_user bu ON b.id = bu.bug_id
+                      LEFT JOIN 
+                        staff s ON bu.staff_id = s.staff_id";
+            $result = $this->db->select($query);
+            if ($result) {
+                $this->db->closeConnection();
+                return $result;
+            } else {
+                $this->db->closeConnection();
+                return false;
+            }
+        } else {
+            echo "Error in Database Connection";
+            return false;
+        }
+
+
+    }
+    public function getBugsForStaff($staffId)
+    {
+        $this->db = new DBController;
+        if ($this->db->openConnection()) {
+            $query = "SELECT b.id, b.bug_name, b.category, b.details, b.status, b.priority, b.created_at, p.project_title FROM  bugs b
+                        JOIN 
+                            bug_staff bu ON b.id = bu.bug_id
+                        JOIN 
+                            staff s ON bu.staff_id = s.staff_id
+                        LEFT JOIN 
+                            projects p ON b.project_id = p.project_id
+                        WHERE 
+                            s.staff_id = $staffId;";
             $result = $this->db->select($query);
             if ($result) {
                 $this->db->closeConnection();

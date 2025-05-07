@@ -3,8 +3,8 @@
         Anything you want
     </div>
     <strong style="font-size: 14px">
-        Copyright &copy; 2014-2024&nbsp;
-        <a href="./general.html" class="text-decoration-none">Bug Tracker</a>.
+        Copyright &copy; 2025&nbsp;
+        <a href="" class="text-decoration-none">Bug Tracker</a>.
     </strong>
     All rights reserved.
 </footer>

@@ -1,3 +1,28 @@
+<?php
+require_once '../../Models/Staff.php';
+require_once '../../Controllers/StaffController.php';
+$errMsg = "";
+
+if (
+    isset($_POST['staff_name']) && isset($_POST['staff_email'])
+) {
+    if (
+        !empty($_POST['staff_name']) && !empty($_POST['staff_email'])
+    ) {
+        $staff = new Staff($_POST['staff_name'], $_POST['staff_email'], $_POST['staff_email'], "staff");
+        $staffController = new StaffController;
+
+        $result = $staffController->addStaff($staff);
+        if (!$result) {
+            $errMsg = "Error in Adding Staff";
+        }
+    }
+
+}
+
+?>
+
+
 <div class="app-content-header">
     <div class="container-fluid">
         <div class="row">
@@ -9,73 +34,36 @@
                     <li class="breadcrumb-item"><a href="">Home / Add Staff</a></li>
                 </ol>
             </div>
+            <?php
+            if ($errMsg !== "") {
+                echo "<h4 class='alert alert-danger'>$errMsg</h4>";
+            }
+            ?>
         </div>
     </div>
 </div>
 <div class="app-content">
     <div class="container-fluid">
-        <!--begin::Form Validation-->
         <div class="card card-info card-outline mb-4">
-            <!--begin::Header-->
-            <div class="card-header">
-                <div class="card-title">Form Validation</div>
-            </div>
-            <!--end::Header-->
-            <!--begin::Form-->
-            <form class="needs-validation" novalidate>
+            <form class="needs-validation" action="index.php?page=addStaff" method="post" novalidate>
                 <div class="card-body">
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label for="validationCustom01" class="form-label">First name</label>
-                            <input type="text" class="form-control" id="validationCustom01" value="Mark" required />
-                            <div class="valid-feedback">Looks good!</div>
+                            <label for="validationCustom01" class="form-label">Staff Name</label>
+                            <input type="text" name="staff_name" class="form-control" id="validationCustom01"
+                                required />
+                            <div class="valid-feedback"></div>
                         </div>
                         <div class="col-md-6">
-                            <label for="validationCustom02" class="form-label">Last name</label>
-                            <input type="text" class="form-control" id="validationCustom02" value="Otto" required />
-                            <div class="valid-feedback">Looks good!</div>
+                            <label for="validationCustom01" class="form-label">Staff Email</label>
+                            <input type="email" name="staff_email" class="form-control" id="validationCustom01"
+                                required />
+                            <div class="valid-feedback"></div>
                         </div>
-                        <div class="col-md-6">
-                            <label for="validationCustomUsername" class="form-label">Username</label>
-                            <div class="input-group has-validation">
-                                <span class="input-group-text" id="inputGroupPrepend">@</span>
-                                <input type="text" class="form-control" id="validationCustomUsername"
-                                    aria-describedby="inputGroupPrepend" required />
-                                <div class="invalid-feedback">Please choose a username.</div>
-                            </div>
+
+                        <div class="card-footer">
+                            <button class="btn btn-success" type="submit">Submit form</button>
                         </div>
-                        <div class="col-md-6">
-                            <label for="validationCustom03" class="form-label">City</label>
-                            <input type="text" class="form-control" id="validationCustom03" required />
-                            <div class="invalid-feedback">Please provide a valid city.</div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="validationCustom04" class="form-label">State</label>
-                            <select class="form-select" id="validationCustom04" required>
-                                <option selected disabled value="">Choose...</option>
-                                <option>...</option>
-                            </select>
-                            <div class="invalid-feedback">Please select a valid state.</div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="validationCustom05" class="form-label">Zip</label>
-                            <input type="text" class="form-control" id="validationCustom05" required />
-                            <div class="invalid-feedback">Please provide a valid zip.</div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required />
-                                <label class="form-check-label" for="invalidCheck">
-                                    Agree to terms and conditions
-                                </label>
-                                <div class="invalid-feedback">You must agree before submitting.</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <button class="btn btn-info" type="submit">Submit form</button>
-                </div>
             </form>
 
             <script>

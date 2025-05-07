@@ -28,7 +28,7 @@ require_once "../../Controllers/Utils.php";
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>Admin Page</title>
+  <title>Staff Page</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
     integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q=" crossorigin="anonymous" />
@@ -63,7 +63,7 @@ require_once "../../Controllers/Utils.php";
         <div class="container-fluid">
           <div class="row">
             <div class="col-sm-6">
-              <h3 class="mb-0"><?php echo Utils::capitalizeEachWord ($page_title); ?> Staff Home</h3>
+              <h3 class="mb-0"> Staff Home</h3>
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-end">
@@ -95,53 +95,55 @@ require_once "../../Controllers/Utils.php";
           } else if ($page_title == 'viewStaff') {
 
             require_once '../viewStaff.php';
+          } else if ($page_title == 'chat') {
+            require_once '../chat.php';
           } else {
             ?>
 
-                      <div class="row">
-                        <div class="col-lg-3 col-6">
-                          <!-- small box -->
-                          <div class="small-box text-bg-primary">
-                            <div class="p-4 text-center">
-                              <h3 class="">View Bugs</h3>
+                        <div class="row">
+                          <div class="col-lg-3 col-6">
+                            <!-- small box -->
+                            <div class="small-box text-bg-primary">
+                              <div class="p-4 text-center">
+                                <h3 class="">View Bugs</h3>
+                              </div>
+                              <a href="index.php?page=viewBugs"
+                                class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+                                Go to page <i class="bi bi-link-45deg"></i>
+                              </a>
                             </div>
-                            <a href="index.php?page=viewBugs"
-                              class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
-                              Go to page <i class="bi bi-link-45deg"></i>
-                            </a>
                           </div>
-                        </div>
-                        <!-- ./col -->
-                        <div class="col-lg-3 col-6">
-                          <!-- small box -->
-                          <div class="small-box text-bg-success">
-                            <div class="p-4 text-center">
-                              <h3 class="">Messages</h3>
+                          <!-- ./col -->
+                          <div class="col-lg-3 col-6">
+                            <!-- small box -->
+                            <div class="small-box text-bg-success">
+                              <div class="p-4 text-center">
+                                <h3 class="">Messages</h3>
+                              </div>
+                              <a href="index.php?page=chat"
+                                class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+                                Go to page <i class="bi bi-link-45deg"></i>
+                              </a>
                             </div>
-                            <a href="index.php?page=chat"
-                              class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
-                              Go to page <i class="bi bi-link-45deg"></i>
-                            </a>
                           </div>
-                        </div>
-                        <!-- ./col -->
-                        <div class="col-lg-3 col-6">
-                          <!-- small box -->
-                          <div class="small-box text-white bg-warning">
-                          
-                            <div class="p-4 text-center">
-                              <h3 class="">View Project</h3>
+                          <!-- ./col -->
+                          <div class="col-lg-3 col-6">
+                            <!-- small box -->
+                            <div class="small-box text-white bg-warning">
+
+                              <div class="p-4 text-center">
+                                <h3 class="">View Project</h3>
+                              </div>
+
+                              <a href="index.php?page=viewProject"
+                                class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+                                Go to page <i class="bi bi-link-45deg"></i>
+                              </a>
                             </div>
-                           
-                            <a href="index.php?page=viewProject"
-                              class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
-                              Go to page <i class="bi bi-link-45deg"></i>
-                            </a>
                           </div>
+
+
                         </div>
-                       
-                      
-                      </div>
             <?php
           }
           ?>

@@ -1,9 +1,65 @@
 <?php
+require_once '../../Controllers/BugController.php';
+require_once '../../Controllers/ProjectController.php';
+require_once '../../Controllers/StaffController.php';
+$errMsg = "";
+$projects;
+$allStaff;
+
+if (
+    isset($_POST['bug_name'])
+    && isset($_POST['project_id'])
+    && isset($_POST['category'])
+    && isset($_POST['details'])
+    && isset($_POST['assigned_to'])
+    && isset($_POST['status'])
+    && isset($_POST['priority'])
+) {
+    if (
+        !empty($_POST['bug_name'])
+        && !empty($_POST['project_id'])
+        && !empty($_POST['category'])
+        && !empty($_POST['details'])
+        && !empty($_POST['assigned_to'])
+        && !empty($_POST['status'])
+        && !empty($_POST['priority'])
+
+    ) {
+        $bug = new Bug(
+            $_POST['bug_name'],
+            $_POST['project_id'],
+            $_POST['category'],
+            $_POST['details'],
+            $_POST['assigned_to'],
+            $_POST['status'],
+            $_POST['priority']
+        );
+        $bugController = new BugController;
+
+        $result = $bugController->addBug($bug);
+        if (!$result) {
+            $errMsg = "Error in Adding Bug";
+        }
+    }
+
+}
 
 
+$projectController = new ProjectController;
+$staffController = new StaffController;
 
-
-
+$ProjectsResult = $projectController->getAllProjects();
+$staffResult = $staffController->getAllStaff();
+if (!$ProjectsResult) {
+    $errMsg = "Error in fetching Projects";
+} else {
+    $projects = $ProjectsResult;
+}
+if (!$staffResult) {
+    $errMsg = "Error in fetching Staff";
+} else {
+    $allStaff = $staffResult;
+}
 
 
 
@@ -19,74 +75,101 @@
         <div class="row">
             <div class="col-sm-6">
                 <h3 class="mb-0">Add Bug</h3>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-end">
-                    <li class="breadcrumb-item"><a href="">Home / Add Bug</a></li>
-                </ol>
+                <?php if (!empty($errMsg))
+                    echo "<div class='alert alert-danger'>$errMsg</div>"
+                        ?>
+
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-end">
+                        <li class="breadcrumb-item"><a href="">Home / Add Bug</a></li>
+                    </ol>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="app-content">
-    <div class="container-fluid">
-        <div class="card card-info card-outline mb-4">
-            <div class="card-header">
-                <div class="card-title">Form Validation</div>
-            </div>
-            <form class="needs-validation" class="mb-3" action="addBug.php" method="POST">
-                <div class="card-body">
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label for="validationCustom01" class="form-label">First name</label>
-                            <input type="text" class="form-control" id="validationCustom01" value="Mark" required />
-                            <div class="valid-feedback">Looks good!</div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="validationCustom02" class="form-label">Last name</label>
-                            <input type="text" class="form-control" id="validationCustom02" value="Otto" required />
-                            <div class="valid-feedback">Looks good!</div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="validationCustomUsername" class="form-label">Username</label>
-                            <div class="input-group has-validation">
-                                <span class="input-group-text" id="inputGroupPrepend">@</span>
-                                <input type="text" class="form-control" id="validationCustomUsername"
-                                    aria-describedby="inputGroupPrepend" required />
-                                <div class="invalid-feedback">Please choose a username.</div>
+    <div class="app-content">
+        <div class="container-fluid">
+            <div class="card card-info card-outline mb-4">
+                <form class="needs-validation" class="mb-3" action="index.php?page=addBug" method="POST">
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="bug_name" class="form-label">Bug Name</label>
+                                <input type="text" name="bug_name" class="form-control" id="bug_name" required />
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="validationCustom03" class="form-label">City</label>
-                            <input type="text" class="form-control" id="validationCustom03" required />
-                            <div class="invalid-feedback">Please provide a valid city.</div>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="validationCustom04" class="form-label">State</label>
-                            <select class="form-select" id="validationCustom04" required>
-                                <option selected disabled value="">Choose...</option>
-                                <option>...</option>
+                            <div class="col-md-6">
+                                <label for="project_id" class="form-label">Project</label>
+                                <select class="form-select" name="project_id" id="project_id" required>
+                                    <option selected disabled value="">Choose Project</option>
+                                    <?php
+                foreach ($projects as $project) {
+                    ?>
+                                    <option value="<?php echo $project['project_id']; ?>">
+                                        <?php echo $project['project_title']; ?>
+                                    </option>
+                                    <?php
+                }
+                ?>
                             </select>
-                            <div class="invalid-feedback">Please select a valid state.</div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="category" class="form-label">Category</label>
+                            <select class="form-select" name="category" id="category" required>
+                                <option selected disabled value="">Choose category</option>
+                                <option value="web">Web Application</option>
+                                <option value="mobile">mobile Application</option>
+                                <option value="desktop">desktop Application</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="details" class="form-label">Details</label>
+                            <textarea type="text" name="details" class="form-control" id="details" required></textarea>
+                        </div>
+
+
+                        <!--  add all staff in this    -->
+                        <div class="col-md-6">
+                            <label for="assigned_to" class="form-label">Assigned To</label>
+                            <select class="form-select" name="assigned_to" id="assigned_to" required>
+                                <option selected disabled value="">Choose Project</option>
+                                <?php
+                                foreach ($allStaff as $staff) {
+                                    ?>
+                                    <option value="<?php echo $staff['staff_id']; ?>">
+                                        <?php echo $staff['staff_name']; ?>
+                                    </option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+                        <!-- ///////////////////// -->
+                        <div class="col-md-6">
+                            <label for="status" class="form-label">Status</label>
+                            <select class="form-select" name="status" id="status" required>
+                                <option selected disabled value="">Choose...</option>
+                                <option value="waiting">Waiting</option>
+                                <option value="in_progress">In_progress</option>
+                                <option value="solved">Solved</option>
+                            </select>
                         </div>
                         <div class="col-md-6">
-                            <label for="validationCustom05" class="form-label">Zip</label>
-                            <input type="text" class="form-control" id="validationCustom05" required />
-                            <div class="invalid-feedback">Please provide a valid zip.</div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required />
-                                <label class="form-check-label" for="invalidCheck">
-                                    Agree to terms and conditions
-                                </label>
-                                <div class="invalid-feedback">You must agree before submitting.</div>
-                            </div>
+                            <label for="priority" class="form-label">Priority</label>
+                            <select class="form-select" name="priority" id="priority" required>
+                                <option selected disabled value="">Choose Priority</option>
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                            </select>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button class="btn btn-info" type="submit">Submit form</button>
+                    <button class="btn btn-success" type="submit">Submit form</button>
                 </div>
             </form>
         </div>

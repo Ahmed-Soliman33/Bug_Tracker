@@ -18,17 +18,19 @@ class AuthController
                 return false;
             } else {
                 if (count($result) == 0) {
-                    // session_start();
                     $_SESSION["errMsg"] = "You have entered wrong email or password";
                     $this->db->closeConnection();
                     return false;
                 } else {
-                    // session_start();
-                    $_SESSION["userId"] = $result[0]["id"];
-                    $_SESSION["userName"] = $result[0]["name"];
-                    $_SESSION["userRole"] = $result[0]["role"];
-
-
+                    if ($result[0]["role"] == "staff") {
+                        $_SESSION["userId"] = $result[0]["id"];
+                        $_SESSION["userName"] = $result[0]["name"];
+                        $_SESSION["userRole"] = $result[0]["role"];
+                    } else {
+                        $_SESSION["userId"] = $result[0]["id"];
+                        $_SESSION["userName"] = $result[0]["name"];
+                        $_SESSION["userRole"] = $result[0]["role"];
+                    }
                     $this->db->closeConnection();
                     return true;
                 }
@@ -60,6 +62,27 @@ class AuthController
             echo "Error in Database Connection";
             return false;
         }
+    }
+
+    public function getUserById($id)
+    {
+        $this->db = new DBController;
+        if ($this->db->openConnection()) {
+            $query = "select * from users where id = $id";
+            $result = $this->db->select($query);
+            if ($result) {
+                $this->db->closeConnection();
+                return $result;
+            } else {
+                $this->db->closeConnection();
+                return false;
+            }
+        } else {
+            echo "Error in Database Connection";
+            return false;
+        }
+
+
     }
 
 }

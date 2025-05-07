@@ -1,3 +1,20 @@
+<?php
+
+require_once '../../Controllers/StaffController.php';
+$staffs = [];
+
+$staffController = new StaffController;
+
+$result = $staffController->getAllStaff();
+if (!$result) {
+    $errMsg = "Error in fetching Staff";
+} else {
+    $staffs = $result;
+}
+?>
+
+
+
 <div class="app-content-header">
     <div class="container-fluid">
         <div class="row">
@@ -6,87 +23,58 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
-                    <li class="breadcrumb-item"><a href="">Home /</a></li>
+                    <li class="breadcrumb-item"><a href="">Home / Staff</a></li>
                 </ol>
             </div>
         </div>
         <div class="">
             <div class="card mb-4">
-                <div class="card-header">
-                    <h3 class="card-title">Bugs Table</h3>
-                </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th style="width: 10px">#</th>
-                                <th>Staff</th>
-                                <th>Developer</th>
-                                <th style="width: 40px">Status</th>
-                                <th>Project</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="align-middle">
-                                <td>1.</td>
-                                <td>Update software</td>
-                                <td>
-                                    <div class="progress progress-xs">
-                                        <div class="progress-bar progress-bar-danger" style="width: 55%">
-                                        </div>
-                                    </div>
-                                </td>
-                                <td><span class="badge text-bg-danger">55%</span></td>
-                            </tr>
-                            <tr class="align-middle">
-                                <td>2.</td>
-                                <td>Clean database</td>
-                                <td>
-                                    <div class="progress progress-xs">
-                                        <div class="progress-bar text-bg-warning" style="width: 70%"></div>
-                                    </div>
-                                </td>
-                                <td><span class="badge text-bg-warning">70%</span></td>
-                            </tr>
-                            <tr class="align-middle">
-                                <td>3.</td>
-                                <td>Cron job running</td>
-                                <td>
-                                    <div class="progress progress-xs progress-striped active">
-                                        <div class="progress-bar text-bg-primary" style="width: 30%"></div>
-                                    </div>
-                                </td>
-                                <td><span class="badge text-bg-primary">30%</span></td>
-                            </tr>
-                            <tr class="align-middle">
-                                <td>4.</td>
-                                <td>Fix and squish bugs</td>
-                                <td>
-                                    <div class="progress progress-xs progress-striped active">
-                                        <div class="progress-bar text-bg-success" style="width: 90%"></div>
-                                    </div>
-                                </td>
-                                <td><span class="badge text-bg-success">90%</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+                    <?php
+
+                    if (count($staffs) > 0) {
+
+                        ?>
+                        <table class="table table-bordered ">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10px">#</th>
+                                    <th>Staff Name</th>
+                                    <th>Email</th>
+                                    <th>Created At</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                foreach ($staffs as $staff) {
+                                    ?>
+                                    <tr class="align-middle">
+                                        <td style="color: #444;"><?php echo $staff['staff_id']; ?></td>
+                                        <td class="text-capitalize text-danger fw-bold fs-5">
+                                            <?php echo $staff['staff_name']; ?>
+                                        </td>
+                                        <td style="color: #444;"><?php echo $staff['staff_email']; ?></td>
+                                        <td style="color: #444;"><?php echo $staff['staff_created_at']; ?></td>
+                                    </tr>
+                                    <?php
+                                }
+                                ?>
+
+                            </tbody>
+                        </table>
+                        <?php
+                    } else {
+                        ?>
+                        <h4 class='alert alert-danger'>No Staffs Found</h4>
+                        <?php
+                    }
+                    ?>
+
                 </div>
-                <!-- /.card-body -->
-                <div class="card-footer clearfix">
-                    <ul class="pagination pagination-sm m-0 float-end">
-                        <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                    </ul>
-                </div>
+
             </div>
         </div>
     </div>
 </div>
-<div class="app-content">
-    <div class="container-fluid">
-
-    </div>

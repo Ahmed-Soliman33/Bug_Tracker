@@ -1,87 +1,140 @@
+<?php
+
+require_once '../../Controllers/BugController.php';
+require_once '../../Controllers/AuthController.php';
+require_once '../../Controllers/StaffController.php';
+$bugs = [];
+$BugController = new BugController;
+$errMsg = '';
+$viewMsg = '';
+
+
+
+if (isset($_SESSION["userRole"])) {
+    if ($_SESSION["userRole"] == "admin") {
+        $viewMsg = "All Bugs";
+        $result = $BugController->getAllBugs();
+        if (!$result) {
+            $errMsg = "Error in fetching Bugs";
+        } else {
+            $bugs = $result;
+        }
+    } else if ($_SESSION["userRole"] == "staff") {
+        $viewMsg = "Your Bugs";
+        $authController = new AuthController;
+        $user = $authController->getUserById($_SESSION["userId"]);
+        if ($user) {
+            $staffController = new StaffController;
+            $staff = $staffController->getStaffByEmail($user[0]["email"]);
+            if ($staff) {
+                $result = $BugController->getBugsForStaff($staff[0]["staff_id"]);
+                if (!$result) {
+                    $errMsg = "Error in fetching Bugs";
+                } else {
+                    $bugs = $result;
+                }
+            }
+        }
+    }
+}
+?>
+
+
+
 <div class="app-content-header">
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-6">
-                <h3 class="mb-0">View Bugs</h3>
+                <h3 class="mb-0"><?php echo $viewMsg ?></h3>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-end">
-                    <li class="breadcrumb-item"><a href="">Home /</a></li>
+                    <li class="breadcrumb-item"><a href="">Home / Bugs</a></li>
                 </ol>
             </div>
         </div>
         <div class="">
             <div class="card mb-4">
-                <div class="card-header">
-                    <h3 class="card-title">Bugs Table</h3>
-                </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th style="width: 10px">#</th>
-                                <th>Bug</th>
-                                <th>Developer</th>
-                                <th style="width: 40px">Status</th>
-                                <th>Project</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="align-middle">
-                                <td>1.</td>
-                                <td>Update software</td>
-                                <td>
-                                    <div class="progress progress-xs">
-                                        <div class="progress-bar progress-bar-danger" style="width: 55%">
-                                        </div>
-                                    </div>
-                                </td>
-                                <td><span class="badge text-bg-danger">55%</span></td>
-                            </tr>
-                            <tr class="align-middle">
-                                <td>2.</td>
-                                <td>Clean database</td>
-                                <td>
-                                    <div class="progress progress-xs">
-                                        <div class="progress-bar text-bg-warning" style="width: 70%"></div>
-                                    </div>
-                                </td>
-                                <td><span class="badge text-bg-warning">70%</span></td>
-                            </tr>
-                            <tr class="align-middle">
-                                <td>3.</td>
-                                <td>Cron job running</td>
-                                <td>
-                                    <div class="progress progress-xs progress-striped active">
-                                        <div class="progress-bar text-bg-primary" style="width: 30%"></div>
-                                    </div>
-                                </td>
-                                <td><span class="badge text-bg-primary">30%</span></td>
-                            </tr>
-                            <tr class="align-middle">
-                                <td>4.</td>
-                                <td>Fix and squish bugs</td>
-                                <td>
-                                    <div class="progress progress-xs progress-striped active">
-                                        <div class="progress-bar text-bg-success" style="width: 90%"></div>
-                                    </div>
-                                </td>
-                                <td><span class="badge text-bg-success">90%</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+
+
+                    <?php
+
+                    if (count($bugs) > 0) {
+
+                        ?>
+                        <table class="table table-bordered ">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10px">#</th>
+                                    <th>Bug</th>
+                                    <th>Project</th>
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                    <?php
+                                    if ($_SESSION["userRole"] == "admin") {
+
+                                        ?>
+                                        <th>Assigned To</th>
+                                        <?php
+                                    } ?>
+                                    <th>Priority</th>
+                                    <th>Created At</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                foreach ($bugs as $bug) {
+                                    ?>
+                                    <tr class="align-middle">
+                                        <td><?php echo $bug['id']; ?></td>
+                                        <td class="text-capitalize fs-5 text-danger fw-bold"><?php echo $bug['bug_name']; ?>
+                                        </td>
+                                        <td style="color: #444;"><?php echo $bug['project_title']; ?></td>
+                                        <td><?php echo $bug['category']; ?></td>
+                                        <td>
+                                            <p <?php
+                                            if ($bug['status'] == "waiting") {
+                                                echo "class='text-bg-warning text-center' style='margin-top: 10px; border-radius: 50px;'";
+                                            } else if ($bug["status"] == "in_progress") {
+                                                echo "class='text-bg-info text-center'  style='margin-top: 10px; border-radius: 50px;'";
+                                            } else {
+                                                echo "class='text-bg-success text-center'  style='margin-top: 10px; border-radius: 50px;'";
+                                            }
+                                            ?>>
+                                                <?php echo $bug['status']; ?>
+                                            </p>
+                                        </td>
+                                        <?php
+                                        if ($_SESSION["userRole"] == "admin") {
+
+                                            ?>
+                                            <td><?php echo $bug['staffName']; ?></td>
+                                            <?php
+                                        }
+                                        ?>
+                                        <td><?php echo $bug['priority']; ?></td>
+                                        <td><?php echo $bug['created_at']; ?> </td>
+                                    </tr>
+                                    <?php
+                                }
+                                ?>
+
+                            </tbody>
+                        </table>
+                        <?php
+                    } else {
+                        ?>
+                        <h4 class='alert alert-danger'>No Bugs Found</h4>
+                        <?php
+                    }
+                    ?>
+
+
                 </div>
-                <!-- /.card-body -->
-                <div class="card-footer clearfix">
-                    <ul class="pagination pagination-sm m-0 float-end">
-                        <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                    </ul>
-                </div>
+
             </div>
         </div>
     </div>

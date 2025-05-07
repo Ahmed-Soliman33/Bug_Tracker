@@ -18,11 +18,8 @@ if (isset($_GET["logout"])) {
 // Handle login
 if (isset($_POST['email']) && isset($_POST['password'])) {
   if (!empty($_POST['email']) && !empty($_POST['password'])) {
-    $user = new User;
+    $user = new User("", $_POST['email'], $_POST['password'], "");
     $auth = new AuthController;
-    $user->email = $_POST['email'];
-    $user->password = $_POST['password'];
-
     if (!$auth->login($user)) {
       $errMsg = $_SESSION["errMsg"] ?? "Login failed";
     } else {
