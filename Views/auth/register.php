@@ -8,11 +8,8 @@ if (!isset($_SESSION["userId"])) {
 $errMsg = "";
 if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['name'])) {
   if (!empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['name'])) {
-    $user = new User;
+    $user = new User($_POST['name'], $_POST['email'], $_POST['password'], "customer");
     $auth = new AuthController;
-    $user->name = $_POST['name'];
-    $user->email = $_POST['email'];
-    $user->password = $_POST['password'];
     if ($auth->register($user)) {
       header("location: ../customer/index.php");
     } else {

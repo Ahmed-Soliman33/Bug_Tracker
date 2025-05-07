@@ -1,28 +1,28 @@
 <?php
 
-require_once '../../Models/Staff.php';
+require_once '../../Models/Message.php';
 require_once '../../Models/Chat.php';
 require_once '../../Controllers/DBController.php';
 
-class ChatController
+class MessageController
 {
     protected $db;
-    public function createChat($userId_1, $userId_2)
+
+
+    public function sendMessage(Message $message)
     {
         $this->db = new DBController;
         if ($this->db->openConnection()) {
-            $query = "INSERT INTO chats () VALUES ()";
-            $chatId = $this->db->insert($query);
-            if ($chatId) {
-                $query = "INSERT INTO chat_user (chat_id, user_id) VALUES ($userId_1, $userId_2)";
-                $result = $this->db->insert($query);
-                if ($result) {
-                    $this->db->closeConnection();
-                    return true;
-                } else {
-                    $this->db->closeConnection();
-                    return false;
-                }
+            $chat_id = $message->getChatId();
+            $user_id = $message->getUserId();
+            $content = $message->getContent();
+            $query = "INSERT INTO messages (chat_id, user_id, content) VALUES ($chat_id, $user_id, '$content')";
+            $result = $this->db->insert($query);
+            if ($result) {
+                $message->setId($result);
+                $this->db->update("UPDATE chats SET updated_at = NOW() WHERE id = $chat_id");
+                $this->db->closeConnection();
+                return true;
             } else {
                 $this->db->closeConnection();
                 return false;
@@ -34,25 +34,26 @@ class ChatController
 
 
     }
-    public function getUserChats($userId)
+
+    public function getChatMessages($userId)
     {
         $this->db = new DBController;
         if ($this->db->openConnection()) {
             $query = "SELECT 
-                        c.id,
-                        c.created_at,
-                        c.updated_at,
-                        GROUP_CONCAT(u.name SEPARATOR ', ') AS participants
+                        m.id,
+                        m.chat_id,
+                        m.user_id,
+                        m.content,
+                        m.sent_at,
+                        u.name AS sender_name
                       FROM 
-                        chats c
+                        messages m
                       JOIN 
-                        chat_user cu ON c.id = cu.chat_id
-                      JOIN 
-                        users u ON cu.user_id = u.id
+                        users u ON m.user_id = u.id
                       WHERE 
-                        c.id IN (SELECT chat_id FROM chat_user WHERE user_id = $userId)
-                      GROUP BY 
-                        c.id, c.created_at, c.updated_at";
+                        m.chat_id = ?
+                      ORDER BY 
+                        m.sent_at ASC";
 
             $result = $this->db->select($query);
             if ($result) {
