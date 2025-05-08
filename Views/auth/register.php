@@ -12,26 +12,24 @@ if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['name'])
     $auth = new AuthController;
     if ($auth->register($user)) {
       header("location: ../customer/index.php");
+      exit();
     } else {
-      $errMsg =
-        $_SESSION["errMsg"];
+      $errMsg = $_SESSION["errMsg"] ?? "Registration failed.";
     }
   } else {
     $errMsg = "Please fill all fields";
   }
-} ?>
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
-<!--begin::Head-->
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title> Register Page</title>
-
+  <title>Register Page</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="title" content="Register Page " />
-
+  <meta name="title" content="Register Page" />
   <link rel="stylesheet" href="../assets/css/adminlte.css" />
 </head>
 
@@ -45,10 +43,14 @@ if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['name'])
       </div>
       <div class="card-body register-card-body">
         <p class="register-box-msg">Register a new membership</p>
+        <?php if (!empty($errMsg)): ?>
+          <div class="alert alert-danger"><?php echo htmlspecialchars($errMsg); ?></div>
+        <?php endif; ?>
         <form id="formAuthentication" class="mb-3" action="register.php" method="POST">
           <div class="input-group mb-1">
             <div class="form-floating">
-              <input name="name" id="registerFullName" type="text" class="form-control" placeholder="" />
+              <input name="name" id="registerFullName" type="text" class="form-control" placeholder=""
+                value="<?php echo isset($_POST['name']) ? htmlspecialchars($_POST['name']) : ''; ?>" />
               <label for="registerFullName">Full Name</label>
             </div>
             <div class="input-group-text">
@@ -57,7 +59,8 @@ if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['name'])
           </div>
           <div class="input-group mb-1">
             <div class="form-floating">
-              <input name="email" id="registerEmail" type="email" class="form-control" placeholder="" />
+              <input name="email" id="registerEmail" type="email" class="form-control" placeholder=""
+                value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>" />
               <label for="registerEmail">Email</label>
             </div>
             <div class="input-group-text">
@@ -73,7 +76,6 @@ if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['name'])
               <span class="bi bi-lock-fill"></span>
             </div>
           </div>
-          <!--begin::Row-->
           <div class="row">
             <div class="col-8 d-inline-flex align-items-center">
               <div class="form-check">
@@ -85,15 +87,14 @@ if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['name'])
             </div>
             <div class="col-4">
               <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-primary">Sign In</button>
+                <button type="submit" class="btn btn-primary">Sign Up</button>
               </div>
             </div>
           </div>
-
         </form>
         <p class="mb-0">
           <a href="login.php" class="link-primary text-center">
-            I already have a acount
+            I already have an account
           </a>
         </p>
       </div>

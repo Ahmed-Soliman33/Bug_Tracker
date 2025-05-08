@@ -28,7 +28,10 @@ class DBController
 			echo "Connection is not opened";
 		}
 	}
-
+	public function prepare($query)
+	{
+		return $this->connection->prepare($query);
+	}
 	public function select($qry)
 	{
 		$result = $this->connection->query(query: $qry);
