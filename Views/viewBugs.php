@@ -119,7 +119,8 @@ if (isset($_SESSION["userRole"])) {
                                         <td><?php echo $bug['created_at']; ?> </td>
                                         <td>
                                             <?php
-                                            $bug_id = $bug['id'];
+                                            $id = $bug['id'];
+                                            $currentComponent = 'viewBugs';
                                             require '../layouts/buttons.php';
                                             ?>
                                         </td>

@@ -12,9 +12,11 @@ session_start();
 if (!isset($_SESSION["userRole"])) {
 
   header("location:../auth/login.php ");
+  exit();
 } else {
   if ($_SESSION["userRole"] != "admin") {
     header("location: ../auth/login.php ");
+    exit();
   }
 }
 
