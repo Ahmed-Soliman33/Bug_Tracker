@@ -44,17 +44,39 @@ class AuthController
     {
         $this->db = new DBController;
         if ($this->db->openConnection()) {
-            $stmt = "INSERT INTO users (name, email, password, role) VALUES ('$user->name','$user->email','$user->password' , '$user->role')";
-            $result = $this->db->insert($stmt);
-            if ($result != false) {
-                session_start();
-                $_SESSION["userId"] = $result;
+            // Check if email already exists
+            $checkQuery = "SELECT * FROM users WHERE email = ?";
+            $stmt = $this->db->connection->prepare($checkQuery);
+            $stmt->bind_param("s", $user->email);
+            $stmt->execute();
+            $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+            $stmt->close();
+
+            if (count($result) > 0) {
+                // session_start();
+                $_SESSION["errMsg"] = "Email already exists. Please use a different email.";
+                $this->db->closeConnection();
+                return false;
+            }
+
+            // Insert new user
+            $insertQuery = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)";
+            $stmt = $this->db->connection->prepare($insertQuery);
+            $stmt->bind_param("ssss", $user->name, $user->email, $user->password, $user->role);
+            $result = $stmt->execute();
+
+            if ($result) {
+                // session_start();
+                $_SESSION["userId"] = $this->db->connection->insert_id;
                 $_SESSION["userName"] = $user->name;
-                $_SESSION["userRole"] = "customer";
+                $_SESSION["userRole"] = $user->role; // Use $user->role instead of hardcoding "customer"
+                $stmt->close();
                 $this->db->closeConnection();
                 return true;
             } else {
-                $_SESSION["errMsg"] = "Somthing went wrong... try again later";
+                // session_start();
+                $_SESSION["errMsg"] = "Something went wrong... try again later.";
+                $stmt->close();
                 $this->db->closeConnection();
                 return false;
             }
