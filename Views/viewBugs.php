@@ -117,7 +117,7 @@ if (isset($_SESSION["userRole"])) {
                                         ?>
                                         <td><?php echo $bug['priority']; ?></td>
                                         <td><?php echo $bug['created_at']; ?> </td>
-                                        <td> 
+                                        <td>
                                             <?php
                                             require '../layouts/buttons.php';
                                             // include 'db.php';

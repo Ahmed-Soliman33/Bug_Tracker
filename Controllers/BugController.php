@@ -42,7 +42,7 @@ class BugController
     {
         $this->db = new DBController;
         if ($this->db->openConnection()) {
-            $query = "SELECT b.*, p.project_title, u.name AS staffName FROM bugs b LEFT JOIN projects p ON b.project_id = p.project_id LEFT JOIN users u ON b.assigned_to = u.id;";
+            $query = "SELECT b.*, p.project_title, s.staff_name AS staffName FROM bugs b LEFT JOIN projects p ON b.project_id = p.project_id LEFT JOIN staff s ON b.assigned_to = s.staff_id;";
 
             $result = $this->db->select($query);
             if ($result) {

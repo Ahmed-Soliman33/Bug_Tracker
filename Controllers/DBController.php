@@ -6,7 +6,7 @@ class DBController
 	public $dbHost = "localhost";
 	public $dbUser = "root";
 	public $dbPassword = "";
-	public $dbName = "bug_tracking_app";
+	public $dbName = "bug_tracking";
 	public $connection;
 
 	public function openConnection()
