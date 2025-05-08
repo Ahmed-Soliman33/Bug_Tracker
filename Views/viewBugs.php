@@ -120,6 +120,25 @@ if (isset($_SESSION["userRole"])) {
                                         <td> 
                                             <?php
                                             require '../layouts/buttons.php';
+                                            // include 'db.php';
+
+                                                if (isset($_GET['id'])) {
+                                                    $bug_id = intval($_GET['project_id']); 
+
+                                                    $stmt = $conn->prepare("DELETE FROM bugs WHERE id = ?");
+                                                    $stmt->bind_param("i", $bug_id);
+
+                                                    if ($stmt->execute()) {
+                                                        echo "Bug deleted successfully.";
+                                                    } else {
+                                                        echo "Error deleting bug: " . $stmt->error;
+                                                    }
+
+                                                    $stmt->close();
+                                                } else {
+                                                    echo "No bug ID provided.";
+                                                }
+                                                
 
                                             ?>
                                         </td>
