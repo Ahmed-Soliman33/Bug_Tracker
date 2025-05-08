@@ -35,11 +35,7 @@ if (
             $_POST['priority']
         );
         $bugController = new BugController;
-
-        $result = $bugController->addBug($bug);
-        if (!$result) {
-            $errMsg = "Error in Adding Bug";
-        }
+        $bugController->addBug($bug);
     }
 
 }

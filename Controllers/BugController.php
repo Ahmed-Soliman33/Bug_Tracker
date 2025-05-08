@@ -24,8 +24,12 @@ class BugController
 
             $result = $this->db->insert($query);
             if ($result) {
-                $this->db->closeConnection();
-                return true;
+                $query_bug_staff = "INSERT INTO bug_staff (bug_id, staff_id ) VALUES ($result , $assignedTo)";
+                $result_bug_staff = $this->db->insert($query_bug_staff);
+                if ($result_bug_staff) {
+                    $this->db->closeConnection();
+                    return true;
+                }
             } else {
                 $this->db->closeConnection();
                 return false;
@@ -165,7 +169,24 @@ class BugController
 
     }
 
-
+    public function deleteBug($bugId)
+    {
+        $this->db = new DBController;
+        if ($this->db->openConnection()) {
+            $query = "DELETE FROM bugs WHERE id = $bugId";
+            $result = $this->db->delete($query);
+            if ($result) {
+                $this->db->closeConnection();
+                return true;
+            } else {
+                $this->db->closeConnection();
+                return false;
+            }
+        } else {
+            echo "Error in Database Connection";
+            return false;
+        }
+    }
 
 
 

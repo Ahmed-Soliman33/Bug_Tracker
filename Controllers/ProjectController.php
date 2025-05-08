@@ -54,6 +54,26 @@ class ProjectController
 
     }
 
+    public function deleteProject($projectId)
+    {
+        $this->db = new DBController;
+        if ($this->db->openConnection()) {
+            $query_bugs = "DELETE FROM bugs WHERE project_id = $projectId";
+            $query = "DELETE FROM projects WHERE project_id = $projectId";
+            $result_bugs = $this->db->delete($query_bugs);
+            $result = $this->db->delete($query);
+            if ($result && $result_bugs) {
+                $this->db->closeConnection();
+                return true;
+            } else {
+                $this->db->closeConnection();
+                return false;
+            }
+        } else {
+            echo "Error in Database Connection";
+            return false;
+        }
+    }
 
 
 

@@ -57,8 +57,11 @@ if (!$result) {
                                         </td>
                                         <td style="color: #444;"><?php echo $staff['staff_email']; ?></td>
                                         <td style="color: #444;"><?php echo $staff['staff_created_at']; ?></td>
-                                        <td> 
+                                        <td>
                                             <?php
+                                            $id = $staff['staff_id'];
+                                            $email = $staff['staff_email'];
+                                            $currentComponent = 'viewStaff';
                                             require '../layouts/buttons.php';
 
                                             ?>

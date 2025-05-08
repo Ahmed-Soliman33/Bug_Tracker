@@ -12,7 +12,7 @@ if (isset($_GET["logout"])) {
   session_destroy();
   // Optionally redirect to login page after logout
   header("location: login.php");
-  exit;
+  exit();
 }
 
 // Handle login
@@ -25,13 +25,13 @@ if (isset($_POST['email']) && isset($_POST['password'])) {
     } else {
       if ($_SESSION["userRole"] == "admin") {
         header("location: ../admin/index.php");
-        exit;
+        exit();
       } else if ($_SESSION["userRole"] == "staff") {
         header("location: ../staff/index.php");
-        exit;
+        exit();
       } else {
         header("location: ../customer/index.php");
-        exit;
+        exit();
       }
     }
   } else {

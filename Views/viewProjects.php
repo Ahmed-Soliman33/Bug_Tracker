@@ -75,8 +75,10 @@ if (!$result) {
                                         <td style="max-width: 400px;"><span
                                                 style="font-size: 15px; color: #444; "><?php echo $project['project_description']; ?></span>
                                         </td>
-                                        <td> 
+                                        <td>
                                             <?php
+                                            $id = $project['project_id'];
+                                            $currentComponent = 'viewProjects';
                                             require '../layouts/buttons.php';
 
                                             ?>
