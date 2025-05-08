@@ -72,8 +72,7 @@ if (!isset($_SESSION["userRole"])) {
         <div class="container-fluid">
 
           <?php
-
-
+    
 
 
           if ($page_title == "viewBugs") {
@@ -156,6 +155,7 @@ if (!isset($_SESSION["userRole"])) {
                           </div>
                           <!-- ./col -->
                         </div>
+
             <?php
           }
           ?>
