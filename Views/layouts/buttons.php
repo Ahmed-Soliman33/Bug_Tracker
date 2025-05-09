@@ -63,26 +63,40 @@ if (
 ?>
 
 <div style="display: flex; justify-content: center; gap: 5px;">
-    <form method="post">
-        <input type="hidden" name="action" value="edit">
-        <input type="hidden" name="id" value="<?php echo $id; ?>">
-        <button style="border: none; padding: 0; margin: 0;" type="submit">
-            <i class="bi bi-pencil-square text-info" style="cursor: pointer; margin-right: 2px; font-size: 18px;"></i>
-        </button>
-    </form>
+    <?php
 
-    <form method="post">
-        <input type="hidden" name="action" value="delete">
-        <input type="hidden" name="id" value="<?php echo $id; ?>">
-        <?php
-        if ($currentComponent === "viewStaff") {
-            ?>
-            <input type="hidden" name="email" value="<?php echo $email ?>">
-            <?php
-        }
+    if ($currentComponent !== "viewStaff" && $currentComponent !== "viewProjects") {
         ?>
-        <button style="border: none; padding: 0; margin: 0;" type="submit">
-            <i class="bi bi-archive-fill" style="cursor: pointer; font-size: 18px; color: #e01123;"></i>
-        </button>
-    </form>
+        <form method="post">
+            <input type="hidden" name="action" value="edit">
+            <input type="hidden" name="id" value="<?php echo $id; ?>">
+            <button style="border: none; padding: 0; margin: 0;" type="submit">
+                <i class="bi bi-pencil-square text-info" style="cursor: pointer; margin-right: 2px; font-size: 18px;"></i>
+            </button>
+        </form>
+        <?php
+    }
+    ?>
+
+    <?php
+    if ($_SESSION['userRole'] === "admin") {
+        ?>
+        <form method="post">
+            <input type="hidden" name="action" value="delete">
+            <input type="hidden" name="id" value="<?php echo $id; ?>">
+            <?php
+            if ($currentComponent === "viewStaff") {
+                ?>
+                <input type="hidden" name="email" value="<?php echo $email ?>">
+                <?php
+            }
+            ?>
+            <button style="border: none; padding: 0; margin: 0;" type="submit">
+                <i class="bi bi-archive-fill" style="cursor: pointer; font-size: 18px; color: #e01123;"></i>
+            </button>
+        </form>
+        <?php
+    }
+    ?>
+
 </div>

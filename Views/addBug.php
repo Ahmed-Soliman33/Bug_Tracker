@@ -11,28 +11,25 @@ if (
     && isset($_POST['project_id'])
     && isset($_POST['category'])
     && isset($_POST['details'])
-    && isset($_POST['assigned_to'])
-    && isset($_POST['status'])
-    && isset($_POST['priority'])
 ) {
     if (
         !empty($_POST['bug_name'])
         && !empty($_POST['project_id'])
         && !empty($_POST['category'])
         && !empty($_POST['details'])
-        && !empty($_POST['assigned_to'])
-        && !empty($_POST['status'])
-        && !empty($_POST['priority'])
 
     ) {
+        $assinged_to = isset($_POST['assigned_to']) ? $_POST['assigned_to'] : 0;
+        $status = isset($_POST['status']) ? $_POST['status'] : 'waiting';
+        $priority = isset($_POST['priority']) ? $_POST['priority'] : 'medium';
         $bug = new Bug(
             $_POST['bug_name'],
             $_POST['project_id'],
             $_POST['category'],
             $_POST['details'],
-            $_POST['assigned_to'],
-            $_POST['status'],
-            $_POST['priority']
+            $assinged_to,
+            $status,
+            $priority
         );
         $bugController = new BugController;
         $bugController->addBug($bug);
@@ -127,11 +124,13 @@ if (!$staffResult) {
 
 
                         <!--  add all staff in this    -->
-                          
+
 
                         <div class="col-md-6">
                             <label for="assigned_to" class="form-label">Assigned To</label>
-                            <select class="form-select" name="assigned_to" id="assigned_to" required>
+                            <select <?php if ($_SESSION['userRole'] != 'admin')
+                                echo "disabled"; ?> class="form-select"
+                                name="assigned_to" id="assigned_to" required>
                                 <option selected disabled value="">Choose Project</option>
                                 <?php
                                 foreach ($allStaff as $staff) {
@@ -144,11 +143,13 @@ if (!$staffResult) {
                                 ?>
                             </select>
                         </div>
-                                
+
                         <!-- ///////////////////// -->
                         <div class="col-md-6">
                             <label for="status" class="form-label">Status</label>
-                            <select class="form-select" name="status" id="status" required>
+                            <select <?php if ($_SESSION['userRole'] == 'customer')
+                                echo "disabled"; ?> class="form-select"
+                                name="status" id="status" required>
                                 <option selected disabled value="">Choose...</option>
                                 <option value="waiting">Waiting</option>
                                 <option value="in_progress">In_progress</option>
@@ -157,7 +158,9 @@ if (!$staffResult) {
                         </div>
                         <div class="col-md-6">
                             <label for="priority" class="form-label">Priority</label>
-                            <select class="form-select" name="priority" id="priority" required>
+                            <select <?php if ($_SESSION['userRole'] == 'customer')
+                                echo "disabled"; ?> class="form-select"
+                                name="priority" id="priority" required>
                                 <option selected disabled value="">Choose Priority</option>
                                 <option value="low">Low</option>
                                 <option value="medium">Medium</option>
