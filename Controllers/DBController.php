@@ -34,7 +34,7 @@ class DBController
 	}
 	public function select($qry)
 	{
-		$result = $this->connection->query(query: $qry);
+		$result = $this->connection->query($qry);
 		if (!$result) {
 			echo "Error : " . mysqli_error($this->connection);
 			return false;
