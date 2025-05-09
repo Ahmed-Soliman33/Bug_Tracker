@@ -204,9 +204,9 @@ class BugController
                   LEFT JOIN 
                     projects p ON b.project_id = p.project_id
                   LEFT JOIN 
-                    bug_user bu ON b.id = bu.bug_id
+                    bug_customer bu ON b.id = bu.bug_id
                   LEFT JOIN 
-                    users u ON bu.user_id = u.user_id";  // ربط البلاغات بالعملاء عبر user_id
+                    customer u ON bu.customer_id = u.customer_id";  // ربط البلاغات بالعملاء عبر user_id
             $result = $this->db->select($query);
             if ($result) {
                 $this->db->closeConnection();
@@ -228,13 +228,13 @@ class BugController
             $query = "SELECT b.id, b.bug_name, b.category, b.details, b.status, b.priority, b.created_at, p.project_title 
                   FROM bugs b
                   JOIN 
-                    bug_user bu ON b.id = bu.bug_id
+                    bug_customer bu ON b.id = bu.bug_id
                   JOIN 
-                    users u ON bu.user_id = u.user_id  -- ربط البلاغ بالعميل عبر user_id
+                    customer u ON bu.customer_id = u.customer_id  -- ربط البلاغ بالعميل عبر user_id
                   LEFT JOIN 
                     projects p ON b.project_id = p.project_id
                   WHERE 
-                    u.user_id = $customerId;";  // شرط البحث بناءً على customerId
+                    u.customer_id = $customerId;";  // شرط البحث بناءً على customerId
             $result = $this->db->select($query);
             if ($result) {
                 $this->db->closeConnection();

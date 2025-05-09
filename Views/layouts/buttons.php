@@ -7,6 +7,7 @@ require_once("../../Controllers/StaffController.php");
 
 
 
+
 if (
     isset($_POST['action']) && isset($_POST['id'])
     && $_POST['action'] === "delete" && !empty($_POST['id'])

@@ -127,8 +127,6 @@ if (!$staffResult) {
 
 
                         <!--  add all staff in this    -->
-                          
-
                         <div class="col-md-6">
                             <label for="assigned_to" class="form-label">Assigned To</label>
                             <select class="form-select" name="assigned_to" id="assigned_to" required>
@@ -144,7 +142,7 @@ if (!$staffResult) {
                                 ?>
                             </select>
                         </div>
-                                
+
                         <!-- ///////////////////// -->
                         <div class="col-md-6">
                             <label for="status" class="form-label">Status</label>

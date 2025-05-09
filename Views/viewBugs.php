@@ -3,6 +3,7 @@
 require_once '../../Controllers/BugController.php';
 require_once '../../Controllers/AuthController.php';
 require_once '../../Controllers/StaffController.php';
+require_once '../../Controllers/CustomerController.php';
 $bugs = [];
 $BugController = new BugController;
 $errMsg = '';
@@ -35,7 +36,27 @@ if (isset($_SESSION["userRole"])) {
                 }
             }
         }
-    }
+    }else if ($_SESSION["userRole"] == "customer") {
+        $viewMsg = "Your Bugs"; 
+        $authController = new AuthController;
+        $user = $authController->getUserById(   $_SESSION["userId"]);
+        if ($user) {
+            $customerController = new CustomerController;
+            $customer = $customerController->getCustomerByEmail($user[0]["email"]);
+            if ($customer) {
+                $result = $BugController->getBugsForCustomer($customer[0]["customer_id"]);
+                if (!$result) {
+                    $errMsg = "Error in fetching Bugs";
+                } else {
+                    $bugs = $result;
+                }
+            }
+        }
+
+        
+    } 
+
+
 }
 ?>
 
