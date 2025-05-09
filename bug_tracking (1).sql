@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 07, 2025 at 09:31 PM
+-- Generation Time: May 09, 2025 at 02:57 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `bug_tracking_app`
+-- Database: `bug_tracking`
 --
 
 -- --------------------------------------------------------
@@ -44,10 +44,26 @@ CREATE TABLE `bugs` (
 --
 
 INSERT INTO `bugs` (`id`, `bug_name`, `project_id`, `category`, `details`, `assigned_to`, `status`, `priority`, `created_at`) VALUES
-(13, 'bug front ', 11, 'mobile', 'ssssssssssssss', 2, 'solved', 'high', '2025-05-07 17:35:49'),
-(14, 'bug front ', 11, 'desktop', 'zzzzzzzzzzzzzzzzzzza', 3, 'solved', 'high', '2025-05-07 17:36:04'),
-(15, 'aaaaaaaaaaaaaaaaaaaaaa', 4, 'web', 'aaaaaaaaaaaaaaaa', 1, 'solved', 'low', '2025-05-07 17:38:28'),
-(16, 'bug front 555', 10, 'web', 'sssasasas', 2, 'solved', 'high', '2025-05-07 17:39:32');
+(43, 'vvsd', 15, 'web', 'sv', 11, 'waiting', 'medium', '2025-05-09 00:33:16'),
+(45, ' ccccc', 15, 'web', ' cxxx', 11, 'in_progress', 'medium', '2025-05-09 00:33:56'),
+(46, 'axs', 15, 'web', 'ead', 12, 'waiting', 'medium', '2025-05-09 00:36:20'),
+(47, 'dsds', 16, 'web', 'dd', 11, 'waiting', 'high', '2025-05-09 00:36:36'),
+(48, 'تلاو', 15, 'web', 'ةةةةةة', 11, 'waiting', 'low', '2025-05-09 01:15:45'),
+(49, 'df', 15, 'web', 'dfs', 12, 'waiting', 'medium', '2025-05-09 01:41:19'),
+(50, 'vvsd', 15, 'web', 'ccccc', 11, 'waiting', 'medium', '2025-05-09 01:41:45'),
+(51, 'axs', 15, 'web', 'dddddd', 11, 'waiting', 'medium', '2025-05-09 01:42:35'),
+(52, 'sdfv', 16, 'mobile', 'fff', 12, 'waiting', 'medium', '2025-05-09 15:25:27');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bug_customer`
+--
+
+CREATE TABLE `bug_customer` (
+  `bug_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -65,8 +81,15 @@ CREATE TABLE `bug_staff` (
 --
 
 INSERT INTO `bug_staff` (`bug_id`, `staff_id`) VALUES
-(13, 1),
-(16, 4);
+(43, 11),
+(45, 11),
+(46, 12),
+(47, 11),
+(48, 11),
+(49, 12),
+(50, 11),
+(51, 11),
+(52, 12);
 
 -- --------------------------------------------------------
 
@@ -89,6 +112,19 @@ CREATE TABLE `chats` (
 CREATE TABLE `chat_user` (
   `chat_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer`
+--
+
+CREATE TABLE `customer` (
+  `customer_id` int(11) NOT NULL,
+  `customer_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `customer_email` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `customer_created_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -124,17 +160,8 @@ CREATE TABLE `projects` (
 --
 
 INSERT INTO `projects` (`project_id`, `project_title`, `project_type`, `project_description`, `created_at`) VALUES
-(1, 'project  1', 'web', 'ask;jahslahlsl', '2025-05-06 16:55:48'),
-(2, 'project  1', 'web', 'ask;jahslahlsl', '2025-05-06 16:56:26'),
-(3, 'sasasas', 'web', 'sasasas', '2025-05-06 16:56:33'),
-(4, 'project  5', 'mobile', 'sasasas', '2025-05-06 16:56:55'),
-(5, 'sas', 'web', 'sass', '2025-05-06 17:48:44'),
-(6, 'sas', 'web', 'sass', '2025-05-06 17:49:26'),
-(7, 'sas', 'web', 'sass', '2025-05-06 17:50:08'),
-(8, 'frontend', 'desktop', 'sasasasaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2025-05-06 17:58:39'),
-(9, 'ahmed salah', 'mobile', 'asassssssssssssssssssss', '2025-05-06 18:32:05'),
-(10, 'Bug Tracker Project', 'web', 'Bug Tracker ProjectBug Tracker ProjectBug Tracker ProjectBug Tracker ProjectBug Tracker ProjectBug Tracker ProjectBug Tracker ProjectBug Tracker ProjectBug Tracker Project', '2025-05-07 13:25:59'),
-(11, 'Pro 2025', 'desktop', 'ggasgjkagkggggggggga', '2025-05-07 15:04:36');
+(15, 'project  1', 'mobile', '363', '2025-05-08 23:11:43'),
+(16, 'project  5', 'mobile', '363+', '2025-05-08 23:11:52');
 
 -- --------------------------------------------------------
 
@@ -154,10 +181,8 @@ CREATE TABLE `staff` (
 --
 
 INSERT INTO `staff` (`staff_id`, `staff_name`, `staff_email`, `staff_created_at`) VALUES
-(1, 'Ahmed Mostafa', 'mostafa@gmail.com', '2025-05-07'),
-(2, 'Osama Ahmed', 'osama@gmail.com', '2025-05-07'),
-(3, 'Ahmed Mostafa 21323', 'mostafasasas@gmail.com', '2025-05-07'),
-(4, 'Ahmed Salah', 'salah@gmail.com', '2025-05-07');
+(11, 'Ahmed Mostafa', 'ahmed@gmail.com', '2025-05-08'),
+(12, 'Ahmed Salah', 'salah@gmail.com', '2025-05-08');
 
 -- --------------------------------------------------------
 
@@ -181,10 +206,11 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `created_at`) VALUES
 (11, 'ali', 'ali@500', '123', 'admin', '2025-05-05 23:19:28'),
 (12, 'احمد عبدالرحمن', 'ahmed12@gmail.com', '123', 'customer', '2025-05-06 01:05:47'),
-(13, 'Ahmed Mostafa', 'mostafa@gmail.com', 'mostafa@gmail.com', 'staff', '2025-05-07 15:27:36'),
-(17, 'Osama Ahmed', 'osama@gmail.com', 'osama@gmail.com', 'staff', '2025-05-07 15:34:45'),
-(21, 'Ahmed Mostafa 21323', 'mostafasasas@gmail.com', 'mostafasasas@gmail.com', 'staff', '2025-05-07 17:18:24'),
-(22, 'Ahmed Salah', 'salah@gmail.com', 'salah@gmail.com', 'staff', '2025-05-07 17:20:15');
+(23, 'Soliman', 'soliman@500', '123', 'customer', '2025-05-08 14:51:35'),
+(25, 'احمد عبدالرحمن', 'soliman3@500', '123', 'customer', '2025-05-08 14:57:34'),
+(33, 'Ahmed Mostafa', 'ahmed@gmail.com', 'ahmed@gmail.com', 'staff', '2025-05-08 20:57:36'),
+(34, 'Ahmed Salah', 'salah@gmail.com', 'salah@gmail.com', 'staff', '2025-05-08 20:57:41'),
+(36, 'Ahmed salah', 'ali@50000', '123', 'customer', '2025-05-09 15:55:47');
 
 --
 -- Indexes for dumped tables
@@ -197,6 +223,13 @@ ALTER TABLE `bugs`
   ADD PRIMARY KEY (`id`),
   ADD KEY `idx_project_id` (`project_id`),
   ADD KEY `bugs_ibfk_2` (`assigned_to`);
+
+--
+-- Indexes for table `bug_customer`
+--
+ALTER TABLE `bug_customer`
+  ADD KEY `bug_id` (`bug_id`),
+  ADD KEY `customer_id` (`customer_id`);
 
 --
 -- Indexes for table `bug_staff`
@@ -217,6 +250,12 @@ ALTER TABLE `chats`
 ALTER TABLE `chat_user`
   ADD PRIMARY KEY (`chat_id`,`user_id`),
   ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `customer`
+--
+ALTER TABLE `customer`
+  ADD PRIMARY KEY (`customer_id`);
 
 --
 -- Indexes for table `messages`
@@ -253,13 +292,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bugs`
 --
 ALTER TABLE `bugs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `chats`
 --
 ALTER TABLE `chats`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `customer`
+--
+ALTER TABLE `customer`
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `messages`
@@ -271,19 +316,19 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `staff`
 --
 ALTER TABLE `staff`
-  MODIFY `staff_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `staff_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- Constraints for dumped tables
@@ -295,6 +340,13 @@ ALTER TABLE `users`
 ALTER TABLE `bugs`
   ADD CONSTRAINT `bugs_ibfk_1` FOREIGN KEY (`project_id`) REFERENCES `projects` (`project_id`),
   ADD CONSTRAINT `bugs_ibfk_2` FOREIGN KEY (`assigned_to`) REFERENCES `staff` (`staff_id`);
+
+--
+-- Constraints for table `bug_customer`
+--
+ALTER TABLE `bug_customer`
+  ADD CONSTRAINT `bug_customer_ibfk_1` FOREIGN KEY (`bug_id`) REFERENCES `bugs` (`id`),
+  ADD CONSTRAINT `bug_customer_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`);
 
 --
 -- Constraints for table `bug_staff`

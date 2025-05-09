@@ -42,7 +42,24 @@ if (
         default:
             break;
     }
+} else if (
+    isset($_POST['action']) && isset($_POST['id'])
+    && $_POST['action'] === "edit" && !empty($_POST['id'])
+) {
+    $id = $_POST['id'];
+    switch ($currentComponent) {
+        case "viewBugs":
+            $_SESSION["editId"] = $id;
+            if ($_SESSION["editId"]) {
+                echo "<script>window.location.href = 'index.php?page=editBug';</script>";
+                exit();
+            }
+            break;
+        default:
+            break;
+    }
 }
+
 ?>
 
 <div style="display: flex; justify-content: center; gap: 5px;">
