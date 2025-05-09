@@ -1,47 +1,31 @@
 <?php
 class Chat
 {
-    private $id;
-    private $createdAt;
-    private $updatedAt;
+    private $bugId;
+    public $messages; // Made public for simplicity in view access
 
-    public function __construct($id = 0, $createdAt = null, $updatedAt = null)
+    public function __construct($bugId = 0, $messages = [])
     {
-        $this->id = $id;
-        $this->createdAt = $createdAt ?? date('Y-m-d H:i:s');
-        $this->updatedAt = $updatedAt ?? date('Y-m-d H:i:s');
+        $this->bugId = $bugId;
+        $this->messages = $messages;
     }
 
-    // Getters
-    public function getId()
+    public function getBugId()
     {
-        return $this->id;
+        return $this->bugId;
+    }
+    public function getMessages()
+    {
+        return $this->messages;
     }
 
-    public function getCreatedAt()
+    public function setBugId($bugId)
     {
-        return $this->createdAt;
+        $this->bugId = $bugId;
     }
-
-    public function getUpdatedAt()
+    public function setMessages($messages)
     {
-        return $this->updatedAt;
-    }
-
-    // Setters
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-    }
-
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
+        $this->messages = $messages;
     }
 }
 ?>

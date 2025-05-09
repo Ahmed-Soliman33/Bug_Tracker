@@ -1,103 +1,87 @@
 <?php
-
-require_once '../../Models/Message.php';
-require_once '../../Models/Chat.php';
-require_once '../../Controllers/DBController.php';
+require_once '../Models/Message.php';
+require_once 'DBController.php';
 
 class MessageController
 {
     protected $db;
 
-
-    public function sendMessage(Message $message)
+    public function sendMessage(Message $message, $user_role)
     {
-        $this->db = new DBController;
+        $this->db = new DBController();
         if ($this->db->openConnection()) {
-            $chat_id = $message->getChatId();
-            $user_id = $message->getUserId();
-            $content = $message->getContent();
-            $query = "INSERT INTO messages (chat_id, user_id, content) VALUES ($chat_id, $user_id, '$content')";
-            $result = $this->db->insert($query);
-            if ($result) {
-                $message->setId($result);
-                $this->db->update("UPDATE chats SET updated_at = NOW() WHERE id = $chat_id");
+            // Validate access
+            $query = "SELECT * FROM bugs WHERE id = ?";
+            if ($user_role == 'customer') {
+                $query .= " AND customer_id = ?";
+            } elseif ($user_role == 'staff') {
+                $query .= " AND id IN (SELECT bug_id FROM assigned_bugs WHERE staff_id = ?)";
+            }
+            $stmt = $this->db->prepare($query);
+            if ($user_role == 'admin') {
+                $stmt->bind_param("i", $message->getBugId());
+            } else {
+                $stmt->bind_param("ii", $message->getBugId(), $message->getUserId());
+            }
+            $stmt->execute();
+            $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+            $stmt->close();
+
+            if (count($result) == 0) {
+                $_SESSION["errMsg"] = "You are not authorized to send messages for this bug.";
                 $this->db->closeConnection();
+                return false;
+            }
+
+            // Insert message
+            $query = "INSERT INTO messages (bug_id, sender_id, message, sent_at) VALUES (?, ?, ?, ?)";
+            $stmt = $this->db->prepare($query);
+            $stmt->bind_param("iiss", $message->getBugId(), $message->getUserId(), $message->getContent(), $message->getSentAt());
+            $result = $stmt->execute();
+            $messageId = $result ? $this->db->connection->insert_id : false;
+            $stmt->close();
+            $this->db->closeConnection();
+
+            if ($messageId) {
+                $message->setId($messageId);
                 return true;
-            } else {
-                $this->db->closeConnection();
-                return false;
             }
+            $_SESSION["errMsg"] = "Failed to send message.";
+            return false;
         } else {
-            echo "Error in Database Connection";
+            $_SESSION["errMsg"] = "Error in Database Connection";
             return false;
         }
-
-
     }
 
-    public function getChatMessages($userId)
+    public function getChatMessages($bug_id, $user_id, $user_role)
     {
-        $this->db = new DBController;
+        $this->db = new DBController();
         if ($this->db->openConnection()) {
-            $query = "SELECT 
-                        m.id,
-                        m.chat_id,
-                        m.user_id,
-                        m.content,
-                        m.sent_at,
-                        u.name AS sender_name
-                      FROM 
-                        messages m
-                      JOIN 
-                        users u ON m.user_id = u.id
-                      WHERE 
-                        m.chat_id = ?
-                      ORDER BY 
-                        m.sent_at ASC";
-
-            $result = $this->db->select($query);
-            if ($result) {
-                $this->db->closeConnection();
-                return $result;
-            } else {
-                $this->db->closeConnection();
-                return false;
+            $query = "SELECT m.*, u.name AS sender_name 
+                      FROM messages m 
+                      JOIN users u ON m.sender_id = u.id 
+                      WHERE m.bug_id = ?";
+            if ($user_role == 'customer') {
+                $query .= " AND (m.sender_id = ? OR m.sender_id IN (SELECT id FROM users WHERE role IN ('admin', 'staff')))";
             }
+            $query .= " ORDER BY m.sent_at ASC";
+
+            $stmt = $this->db->prepare($query);
+            if ($user_role == 'customer') {
+                $stmt->bind_param("ii", $bug_id, $user_id);
+            } else {
+                $stmt->bind_param("i", $bug_id);
+            }
+            $stmt->execute();
+            $messages = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+            $stmt->close();
+            $this->db->closeConnection();
+            return $messages;
         } else {
-            echo "Error in Database Connection";
+            $_SESSION["errMsg"] = "Error in Database Connection";
             return false;
         }
-
-
-    }
-    public function getChatParticipants($chatId)
-    {
-        $this->db = new DBController;
-        if ($this->db->openConnection()) {
-            $query = "SELECT 
-                        u.id,
-                        u.name
-                      FROM 
-                        chat_user cu
-                      JOIN 
-                        users u ON cu.user_id = u.id
-                      WHERE 
-                        cu.chat_id = $chatId";
-            $result = $this->db->select($query);
-            if ($result) {
-                $this->db->closeConnection();
-                return $result;
-            } else {
-                $this->db->closeConnection();
-                return false;
-            }
-        } else {
-            echo "Error in Database Connection";
-            return false;
-        }
-
-
     }
 }
-
 ?>
