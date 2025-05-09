@@ -3,10 +3,18 @@
 require_once '../../Controllers/BugController.php';
 require_once '../../Controllers/AuthController.php';
 require_once '../../Controllers/StaffController.php';
+require_once '../../Controllers/CustomerController.php';
 $bugs = [];
 $BugController = new BugController;
 $errMsg = '';
 $viewMsg = '';
+
+$sql = "SELECT staff.id AS staff_id, staff.name AS staff_name, bugs.id AS bug_id, bugs.title, bugs.description
+        FROM staff
+        JOIN bug_staff ON staff.id = bug_staff.staff_id
+        JOIN bugs ON bugs.id = bug_staff.bug_id
+        ORDER BY staff.id, bugs.id";
+// $query = "SELECT * FROM users WHERE email = '$email' AND role = 'customer'";
 
 
 
@@ -19,6 +27,7 @@ if (isset($_SESSION["userRole"])) {
         } else {
             $bugs = $result;
         }
+
     } else if ($_SESSION["userRole"] == "staff") {
         $viewMsg = "Your Bugs";
         $authController = new AuthController;
@@ -35,8 +44,26 @@ if (isset($_SESSION["userRole"])) {
                 }
             }
         }
+
+    } else if ($_SESSION["userRole"] == "customer") {
+        $viewMsg = "Your  Bugs";
+        $authController = new AuthController;
+        $user = $authController->getUserById($_SESSION["userId"]);
+        if ($user) {
+            $customerController = new CustomerController;
+            $customer = $customerController->getCustomerByEmail($user[0]["email"]);
+            if ($customer) {
+                $result = $BugController->getBugsForCustomer( $customer[0]["customer_id"]);
+                if (!$result) {
+                    $errMsg = "Error in fetching Bugs";
+                } else {
+                    $bugs = $result;
+                }
+            }
+        }
     }
 }
+
 ?>
 
 
