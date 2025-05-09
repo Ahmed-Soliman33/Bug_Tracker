@@ -2,7 +2,6 @@
 require_once '../../Controllers/BugController.php';
 require_once '../../Controllers/ProjectController.php';
 require_once '../../Controllers/StaffController.php';
-require_once '../../controllers/CustomerController.php';
 $errMsg = "";
 $projects;
 $allStaff;
