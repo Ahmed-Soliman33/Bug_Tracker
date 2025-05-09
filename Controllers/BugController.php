@@ -65,7 +65,7 @@ class BugController
     {
         $this->db = new DBController;
         if ($this->db->openConnection()) {
-            $query = "SELECT * FROM bugs WHERE bug_id = $bugId";
+            $query = "SELECT * FROM bugs WHERE id = $bugId";
 
             $result = $this->db->select($query);
             if ($result) {
@@ -101,7 +101,7 @@ class BugController
 
 
     }
-    
+
 
 
     public function removeStaffFromBug($bugId, $staffId)
@@ -191,10 +191,10 @@ class BugController
 
 
     public function getAllBugsForCustomer()
-{
-    $this->db = new DBController;
-    if ($this->db->openConnection()) {
-        $query = "SELECT 
+    {
+        $this->db = new DBController;
+        if ($this->db->openConnection()) {
+            $query = "SELECT 
                     b.id,
                     b.bug_name,
                     b.category,
@@ -211,25 +211,25 @@ class BugController
                     bug_user bu ON b.id = bu.bug_id
                   LEFT JOIN 
                     users u ON bu.user_id = u.user_id";  // ربط البلاغات بالعملاء عبر user_id
-        $result = $this->db->select($query);
-        if ($result) {
-            $this->db->closeConnection();
-            return $result;
+            $result = $this->db->select($query);
+            if ($result) {
+                $this->db->closeConnection();
+                return $result;
+            } else {
+                $this->db->closeConnection();
+                return false;
+            }
         } else {
-            $this->db->closeConnection();
+            echo "Error in Database Connection";
             return false;
         }
-    } else {
-        echo "Error in Database Connection";
-        return false;
     }
-}
 
-public function getBugsForCustomer($customerId)
-{
-    $this->db = new DBController;
-    if ($this->db->openConnection()) {
-        $query = "SELECT b.id, b.bug_name, b.category, b.details, b.status, b.priority, b.created_at, p.project_title 
+    public function getBugsForCustomer($customerId)
+    {
+        $this->db = new DBController;
+        if ($this->db->openConnection()) {
+            $query = "SELECT b.id, b.bug_name, b.category, b.details, b.status, b.priority, b.created_at, p.project_title 
                   FROM bugs b
                   JOIN 
                     bug_user bu ON b.id = bu.bug_id
@@ -239,21 +239,21 @@ public function getBugsForCustomer($customerId)
                     projects p ON b.project_id = p.project_id
                   WHERE 
                     u.user_id = $customerId;";  // شرط البحث بناءً على customerId
-        $result = $this->db->select($query);
-        if ($result) {
-            $this->db->closeConnection();
-            return $result;
+            $result = $this->db->select($query);
+            if ($result) {
+                $this->db->closeConnection();
+                return $result;
+            } else {
+                $this->db->closeConnection();
+                return false;
+            }
         } else {
-            $this->db->closeConnection();
+            echo "Error in Database Connection";
             return false;
         }
-    } else {
-        echo "Error in Database Connection";
-        return false;
     }
-}
 
-    
+
 
     public function deleteBug($bugId)
     {
@@ -282,16 +282,19 @@ public function getBugsForCustomer($customerId)
             $bug_details = $bug->getDetails();
             $bug_status = $bug->getStatus();
             $bug_priority = $bug->getPriority();
+            $bug_assigned_to = $bug->getAssignedTo();
 
 
             $query = "UPDATE bugs
                             SET 
                                 bug_name = '$bug_name',
-                                bug_details = '$bug_details',
+                                details = '$bug_details',
                                 status = '$bug_status',
-                                priority = '$bug_priority',
+                                assigned_to = $bug_assigned_to,
+                                priority = '$bug_priority'
+                                
                             WHERE 
-                                bug_id = $bugId;";
+                                id = $bugId;";
 
             $result = $this->db->update($query);
             if ($result) {
