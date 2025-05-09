@@ -12,31 +12,57 @@ class BugController
     {
         $this->db = new DBController;
         if ($this->db->openConnection()) {
-            $bugName = $bug->getBugName();
-            $category = $bug->getCategory();
-            $details = $bug->getDetails();
-            $assignedTo = $bug->getAssignedTo();
-            $priority = $bug->getPriority();
-            $projectId = $bug->getProjectId();
-            $status = $bug->getStatus();
+            $conn = $this->db->connection;
 
-            $query = "INSERT INTO bugs (bug_name, project_id , category , details , assigned_to , status , priority) VALUES ('$bugName', $projectId ,'$category','$details', $assignedTo , '$status' , '$priority')";
+            // Sanitize inputs
+            $bugName = mysqli_real_escape_string($conn, $bug->getBugName());
+            $projectId = (int) $bug->getProjectId();
+            $category = mysqli_real_escape_string($conn, $bug->getCategory());
+            $details = mysqli_real_escape_string($conn, $bug->getDetails());
+            $assignedTo = (int) $bug->getAssignedTo() || null;
+            $status = mysqli_real_escape_string($conn, $bug->getStatus());
+            $priority = mysqli_real_escape_string($conn, $bug->getPriority());
+
+            $checkStaffQuery = "SELECT * FROM staff WHERE staff_id = $assignedTo";
+            $resultCheck = $this->db->select($checkStaffQuery);
+
+            if ($resultCheck) {
+                $query = "INSERT INTO bugs (bug_name, project_id, category, details, assigned_to, status, priority)
+                  VALUES ('$bugName', $projectId, '$category', '$details', $assignedTo, '$status', '$priority')";
+            } else {
+                $query = "INSERT INTO bugs (bug_name, project_id, category, details, status, priority)
+                  VALUES ('$bugName', $projectId, '$category', '$details', '$status', '$priority')";
+            }
+
+
 
             $result = $this->db->insert($query);
+
             if ($result) {
-                $this->db->closeConnection();
-                return true;
+                $bugId = $conn->insert_id;
+
+                $query_bug_staff = "INSERT INTO bug_staff (bug_id, staff_id) VALUES ($bugId, $assignedTo)";
+                $result_bug_staff = $this->db->insert($query_bug_staff);
+
+                if ($result_bug_staff) {
+                    $this->db->closeConnection();
+                    return true;
+                } else {
+                    echo "❌ Error inserting into bug_staff table.";
+                    $this->db->closeConnection();
+                    return false;
+                }
             } else {
+                echo "❌ Error inserting bug.";
                 $this->db->closeConnection();
                 return false;
             }
         } else {
-            echo "Error in Database Connection";
+            echo "❌ Error: Could not connect to the database.";
             return false;
         }
-
-
     }
+
 
     public function getAllBugs()
     {
@@ -281,7 +307,7 @@ class BugController
             $bug_assigned_to = $bug->getAssignedTo();
 
 
-            $query = "UPDATE bugs
+            $update_bugs = "UPDATE bugs
                             SET 
                                 bug_name = '$bug_name',
                                 details = '$bug_details',
@@ -292,8 +318,28 @@ class BugController
                             WHERE 
                                 id = $bugId;";
 
-            $result = $this->db->update($query);
-            if ($result) {
+
+
+            $result_bug_staff = null;
+
+            $is_bug_in_staff_bug = "select * from bug_staff where bug_id = $bugId;";
+            $result_is_bug_in_staff_bug = $this->db->select($is_bug_in_staff_bug);
+            if (count($result_is_bug_in_staff_bug) > 0) {
+                $update_bug_staff = "UPDATE bug_staff
+                            SET 
+                                staff_id = $bug_assigned_to
+                                WHERE 
+                                bug_id = $bugId;";
+                $result_bug_staff = $this->db->update($update_bug_staff);
+            } else {
+                $insert_bug_staff_query = "INSERT INTO bug_staff (bug_id, staff_id) VALUES ($bugId , $bug_assigned_to);";
+                $result_bug_staff = $this->db->insert($insert_bug_staff_query);
+            }
+
+
+
+            $result_bugs = $this->db->update($update_bugs);
+            if ($result_bugs && $result_bug_staff) {
                 $this->db->closeConnection();
                 return true;
             } else {

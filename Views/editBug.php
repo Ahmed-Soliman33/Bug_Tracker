@@ -53,8 +53,6 @@ if (
         if ($success) {
             echo "<script>window.location.href = 'index.php?page=viewBugs';</script>";
             exit();
-        } else {
-            $errMsg = "Error updating bug.";
         }
     } else {
         $errMsg = "Please fill all required fields.";

@@ -82,14 +82,16 @@ class StaffController
         $this->db = new DBController;
         if ($this->db->openConnection()) {
             $query_bug = "DELETE FROM bug_staff WHERE staff_id = $staffId";
+            $update_bug = "UPDATE bugs SET assigned_to = NULL WHERE assigned_to = $staffId";
             $query_users = "DELETE FROM users WHERE email = '$staffEmail'";
             $query = "DELETE FROM staff WHERE staff_id = $staffId";
 
             $result_bug = $this->db->delete($query_bug);
+            $result_update_bug = $this->db->update($update_bug);
             $result_users = $this->db->delete($query_users);
             $result = $this->db->delete($query);
 
-            if ($result && $result_bug && $result_users) {
+            if ($result && $result_update_bug && $result_bug && $result_users) {
                 $this->db->closeConnection();
                 return true;
             } else {
