@@ -39,7 +39,7 @@ class CustomerController
     {
         $this->db = new DBController;
         if ($this->db->openConnection()) {
-            $query = "SELECT * FROM customers";
+            $query = "SELECT * FROM customer";
             $result = $this->db->select($query);
             $this->db->closeConnection();
             return $result ? $result : false;

@@ -64,9 +64,11 @@ class AuthController
             $stmt->bind_param("ssss", $user->name, $user->email, $user->password, $user->role);
             $result_users = $stmt->execute();
             if ($result_users) {
-                $query = "INSERT INTO customer (customer_name, customer_email) VALUES ('$user->name', '$user->email')";
-                $result = $this->db->insert($query);
-                if ($result) {
+                $insertCustomer = "INSERT INTO customer (customer_name, customer_email) VALUES (?, ?)";
+                $stmt = $this->db->connection->prepare($insertCustomer);
+                $stmt->bind_param("ssss", $user->name, $user->email);
+                $result_customer = $stmt->execute();
+                if ($result_customer) {
                     $_SESSION["userId"] = $this->db->connection->insert_id;
                     $_SESSION["userName"] = $user->name;
                     $_SESSION["userRole"] = $user->role;
