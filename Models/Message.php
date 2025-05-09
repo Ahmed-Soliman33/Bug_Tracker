@@ -2,67 +2,57 @@
 class Message
 {
     private $id;
-    private $chatId;
+    private $bugId;
     private $userId;
     private $content;
     private $sentAt;
 
-    public function __construct($id = 0, $chatId = 0, $userId = 0, $content = '', $sentAt = null)
+    public function __construct($id = 0, $bugId = 0, $userId = 0, $content = '', $sentAt = null)
     {
         $this->id = $id;
-        $this->chatId = $chatId;
+        $this->bugId = $bugId;
         $this->userId = $userId;
         $this->content = $content;
         $this->sentAt = $sentAt ?? date('Y-m-d H:i:s');
     }
 
-    // Getters
     public function getId()
     {
         return $this->id;
     }
-
-    public function getChatId()
+    public function getBugId()
     {
-        return $this->chatId;
+        return $this->bugId;
     }
-
     public function getUserId()
     {
         return $this->userId;
     }
-
     public function getContent()
     {
         return $this->content;
     }
-
     public function getSentAt()
     {
         return $this->sentAt;
     }
 
-    // Setters
     public function setId($id)
     {
         $this->id = $id;
     }
-
-    public function setChatId($chatId)
+    public function setBugId($bugId)
     {
-        $this->chatId = $chatId;
+        $this->bugId = $bugId;
     }
-
     public function setUserId($userId)
     {
         $this->userId = $userId;
     }
-
     public function setContent($content)
     {
         $this->content = $content;
     }
-
     public function setSentAt($sentAt)
     {
         $this->sentAt = $sentAt;

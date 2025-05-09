@@ -1,102 +1,14 @@
 <?php
-
-require_once '../../Models/Staff.php';
-require_once '../../Models/Chat.php';
-require_once '../../Controllers/DBController.php';
+require_once '../Models/Chat.php';
+require_once 'MessageController.php';
 
 class ChatController
 {
-    protected $db;
-    public function createChat($userId_1, $userId_2)
+    public function getChat($bug_id, $user_id, $user_role)
     {
-        $this->db = new DBController;
-        if ($this->db->openConnection()) {
-            $query = "INSERT INTO chats () VALUES ()";
-            $chatId = $this->db->insert($query);
-            if ($chatId) {
-                $query = "INSERT INTO chat_user (chat_id, user_id) VALUES ($userId_1, $userId_2)";
-                $result = $this->db->insert($query);
-                if ($result) {
-                    $this->db->closeConnection();
-                    return true;
-                } else {
-                    $this->db->closeConnection();
-                    return false;
-                }
-            } else {
-                $this->db->closeConnection();
-                return false;
-            }
-        } else {
-            echo "Error in Database Connection";
-            return false;
-        }
-
-
-    }
-    public function getUserChats($userId)
-    {
-        $this->db = new DBController;
-        if ($this->db->openConnection()) {
-            $query = "SELECT 
-                        c.id,
-                        c.created_at,
-                        c.updated_at,
-                        GROUP_CONCAT(u.name SEPARATOR ', ') AS participants
-                      FROM 
-                        chats c
-                      JOIN 
-                        chat_user cu ON c.id = cu.chat_id
-                      JOIN 
-                        users u ON cu.user_id = u.id
-                      WHERE 
-                        c.id IN (SELECT chat_id FROM chat_user WHERE user_id = $userId)
-                      GROUP BY 
-                        c.id, c.created_at, c.updated_at";
-
-            $result = $this->db->select($query);
-            if ($result) {
-                $this->db->closeConnection();
-                return $result;
-            } else {
-                $this->db->closeConnection();
-                return false;
-            }
-        } else {
-            echo "Error in Database Connection";
-            return false;
-        }
-
-
-    }
-    public function getChatParticipants($chatId)
-    {
-        $this->db = new DBController;
-        if ($this->db->openConnection()) {
-            $query = "SELECT 
-                        u.id,
-                        u.name
-                      FROM 
-                        chat_user cu
-                      JOIN 
-                        users u ON cu.user_id = u.id
-                      WHERE 
-                        cu.chat_id = $chatId";
-            $result = $this->db->select($query);
-            if ($result) {
-                $this->db->closeConnection();
-                return $result;
-            } else {
-                $this->db->closeConnection();
-                return false;
-            }
-        } else {
-            echo "Error in Database Connection";
-            return false;
-        }
-
-
+        $messageController = new MessageController();
+        $messages = $messageController->getChatMessages($bug_id, $user_id, $user_role);
+        return new Chat($bug_id, $messages); // $messages is always an array
     }
 }
-
 ?>
