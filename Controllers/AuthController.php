@@ -44,7 +44,7 @@ class AuthController
     {
         $this->db = new DBController;
         if ($this->db->openConnection()) {
-            // Check if email already exists
+
             $checkQuery = "SELECT * FROM users WHERE email = ?";
             $stmt = $this->db->connection->prepare($checkQuery);
             $stmt->bind_param("s", $user->email);
@@ -53,33 +53,34 @@ class AuthController
             $stmt->close();
 
             if (count($result) > 0) {
-                // session_start();
+
                 $_SESSION["errMsg"] = "Email already exists. Please use a different email.";
                 $this->db->closeConnection();
                 return false;
             }
 
-            // Insert new user
-            $insertQuery = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)";
-            $stmt = $this->db->connection->prepare($insertQuery);
+            $insertUsers = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)";
+            $stmt = $this->db->connection->prepare($insertUsers);
             $stmt->bind_param("ssss", $user->name, $user->email, $user->password, $user->role);
-            $result = $stmt->execute();
-
-            if ($result) {
-                // session_start();
-                $_SESSION["userId"] = $this->db->connection->insert_id;
-                $_SESSION["userName"] = $user->name;
-                $_SESSION["userRole"] = $user->role; // Use $user->role instead of hardcoding "customer"
-                $stmt->close();
-                $this->db->closeConnection();
-                return true;
-            } else {
-                // session_start();
-                $_SESSION["errMsg"] = "Something went wrong... try again later.";
-                $stmt->close();
-                $this->db->closeConnection();
-                return false;
+            $result_users = $stmt->execute();
+            if ($result_users) {
+                $query = "INSERT INTO customer (customer_name, customer_email) VALUES ('$user->name', '$user->email')";
+                $result = $this->db->insert($query);
+                if ($result) {
+                    $_SESSION["userId"] = $this->db->connection->insert_id;
+                    $_SESSION["userName"] = $user->name;
+                    $_SESSION["userRole"] = $user->role;
+                    $stmt->close();
+                    $this->db->closeConnection();
+                    return true;
+                } else {
+                    $_SESSION["errMsg"] = "Something went wrong... try again later.";
+                    $stmt->close();
+                    $this->db->closeConnection();
+                    return false;
+                }
             }
+
         } else {
             echo "Error in Database Connection";
             return false;

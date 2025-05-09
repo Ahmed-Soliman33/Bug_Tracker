@@ -61,6 +61,25 @@ class BugController
             return false;
         }
     }
+    public function getBugById($bugId)
+    {
+        $this->db = new DBController;
+        if ($this->db->openConnection()) {
+            $query = "SELECT * FROM bugs WHERE bug_id = $bugId";
+
+            $result = $this->db->select($query);
+            if ($result) {
+                $this->db->closeConnection();
+                return $result;
+            } else {
+                $this->db->closeConnection();
+                return false;
+            }
+        } else {
+            echo "Error in Database Connection";
+            return false;
+        }
+    }
 
     public function assignStaffToBug($bugId, $staffId)
     {
@@ -175,6 +194,39 @@ class BugController
         if ($this->db->openConnection()) {
             $query = "DELETE FROM bugs WHERE id = $bugId";
             $result = $this->db->delete($query);
+            if ($result) {
+                $this->db->closeConnection();
+                return true;
+            } else {
+                $this->db->closeConnection();
+                return false;
+            }
+        } else {
+            echo "Error in Database Connection";
+            return false;
+        }
+    }
+    public function updateBug($bugId, Bug $bug)
+    {
+        $this->db = new DBController;
+        if ($this->db->openConnection()) {
+
+            $bug_name = $bug->getBugName();
+            $bug_details = $bug->getDetails();
+            $bug_status = $bug->getStatus();
+            $bug_priority = $bug->getPriority();
+
+
+            $query = "UPDATE bugs
+                            SET 
+                                bug_name = '$bug_name',
+                                bug_details = '$bug_details',
+                                status = '$bug_status',
+                                priority = '$bug_priority',
+                            WHERE 
+                                bug_id = $bugId;";
+
+            $result = $this->db->update($query);
             if ($result) {
                 $this->db->closeConnection();
                 return true;
