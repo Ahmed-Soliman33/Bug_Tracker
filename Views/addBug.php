@@ -2,6 +2,7 @@
 require_once '../../Controllers/BugController.php';
 require_once '../../Controllers/ProjectController.php';
 require_once '../../Controllers/StaffController.php';
+require_once '../../controllers/CustomerController.php';
 $errMsg = "";
 $projects;
 $allStaff;
@@ -127,6 +128,8 @@ if (!$staffResult) {
 
 
                         <!--  add all staff in this    -->
+                          
+
                         <div class="col-md-6">
                             <label for="assigned_to" class="form-label">Assigned To</label>
                             <select class="form-select" name="assigned_to" id="assigned_to" required>
@@ -142,7 +145,7 @@ if (!$staffResult) {
                                 ?>
                             </select>
                         </div>
-
+                                
                         <!-- ///////////////////// -->
                         <div class="col-md-6">
                             <label for="status" class="form-label">Status</label>
