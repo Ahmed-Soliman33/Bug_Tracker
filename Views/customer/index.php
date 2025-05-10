@@ -85,9 +85,6 @@ if (!isset($_SESSION["userRole"])) {
           } else if ($page_title == 'addProject') {
 
             require_once '../addProject.php';
-          } else if ($page_title == 'viewProject') {
-
-            require_once 'viewProject.php';
           } else if ($page_title == 'addBug') {
 
             require_once '../addBug.php';
@@ -98,84 +95,84 @@ if (!isset($_SESSION["userRole"])) {
 
             require_once '../viewStaff.php';
           } else if ($page_title == 'chat') {
-            require_once '../chat.php';
+            require_once '../chat/chat.php';
           } else if ($page_title == 'editBug') {
             require_once '../editBug.php';
           } else {
             ?>
 
-                          <div class="row">
-                            <div class="col-lg-3 col-6">
-                              <!-- small box -->
-                              <div class="small-box text-bg-primary">
-                                <div class="p-4 text-center">
-                                  <h3 class="">View Bugs</h3>
-                                </div>
-                                <a href="index.php?page=viewBugs"
-                                  class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
-                                  Go to page <i class="bi bi-link-45deg"></i>
-                                </a>
+                        <div class="row">
+                          <div class="col-lg-3 col-6">
+                            <!-- small box -->
+                            <div class="small-box text-bg-primary">
+                              <div class="p-4 text-center">
+                                <h3 class="">View Bugs</h3>
                               </div>
+                              <a href="index.php?page=viewBugs"
+                                class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+                                Go to page <i class="bi bi-link-45deg"></i>
+                              </a>
                             </div>
-                            <!-- ./col -->
-                            <div class="col-lg-3 col-6">
-                              <!-- small box -->
-                              <div class="small-box text-bg-success">
-                                <div class="p-4 text-center">
-                                  <h3 class="">Add Project</h3>
-                                </div>
-                                <a href="index.php?page=addProject"
-                                  class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
-                                  Go to page <i class="bi bi-link-45deg"></i>
-                                </a>
-                              </div>
-                            </div>
-                            <!-- ./col -->
-                            <div class="col-lg-3 col-6">
-                              <!-- small box -->
-                              <div class="small-box text-white bg-warning">
-
-                                <div class="p-4 text-center">
-                                  <h3 class="">View Project</h3>
-                                </div>
-
-                                <a href="index.php?page=viewProject"
-                                  class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
-                                  Go to page <i class="bi bi-link-45deg"></i>
-                                </a>
-                              </div>
-                            </div>
-                            <!-- ./col -->
-                            <div class="col-lg-3 col-6">
-                              <!-- small box -->
-                              <div class="small-box text-bg-danger">
-                                <div class="p-4 text-center">
-                                  <h3 class="">Add Bug</h3>
-                                </div>
-                                <a href="index.php?page=addBug"
-                                  class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
-                                  Go to page <i class="bi bi-link-45deg"></i>
-                                </a>
-                              </div>
-                            </div>
-                            <!-- ./col -->
-
-                            <div class="col-lg-3 col-7">
-                              <!-- small box -->
-                              <div class="small-box text-white " style="background-color: #222;">
-
-                                <div class="p-4 text-center">
-                                  <h3 class="">Messages</h3>
-                                </div>
-
-                                <a href="index.php?page=chat"
-                                  class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
-                                  Go to page <i class="bi bi-link-45deg"></i>
-                                </a>
-                              </div>
-                            </div>
-
                           </div>
+                          <!-- ./col -->
+                          <div class="col-lg-3 col-6">
+                            <!-- small box -->
+                            <div class="small-box text-bg-success">
+                              <div class="p-4 text-center">
+                                <h3 class="">Add Project</h3>
+                              </div>
+                              <a href="index.php?page=addProject"
+                                class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+                                Go to page <i class="bi bi-link-45deg"></i>
+                              </a>
+                            </div>
+                          </div>
+                          <!-- ./col -->
+                          <div class="col-lg-3 col-6">
+                            <!-- small box -->
+                            <div class="small-box text-white bg-warning">
+
+                              <div class="p-4 text-center">
+                                <h3 class="">View Project</h3>
+                              </div>
+
+                              <a href="index.php?page=viewProject"
+                                class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+                                Go to page <i class="bi bi-link-45deg"></i>
+                              </a>
+                            </div>
+                          </div>
+                          <!-- ./col -->
+                          <div class="col-lg-3 col-6">
+                            <!-- small box -->
+                            <div class="small-box text-bg-danger">
+                              <div class="p-4 text-center">
+                                <h3 class="">Add Bug</h3>
+                              </div>
+                              <a href="index.php?page=addBug"
+                                class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+                                Go to page <i class="bi bi-link-45deg"></i>
+                              </a>
+                            </div>
+                          </div>
+                          <!-- ./col -->
+
+                          <div class="col-lg-3 col-7">
+                            <!-- small box -->
+                            <div class="small-box text-white " style="background-color: #222;">
+
+                              <div class="p-4 text-center">
+                                <h3 class="">Messages</h3>
+                              </div>
+
+                              <a href="index.php?page=chat"
+                                class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+                                Go to page <i class="bi bi-link-45deg"></i>
+                              </a>
+                            </div>
+                          </div>
+
+                        </div>
             <?php
           }
           ?>

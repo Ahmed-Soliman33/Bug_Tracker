@@ -22,7 +22,6 @@ require_once("../../Controllers/Utils.php")
                     <a class="nav-link" data-bs-toggle="dropdown"
                         href="../<?php echo $currentPage ?>/index.php?page=chat">
                         <i class="bi bi-chat-text"></i>
-                        <span class="navbar-badge badge text-bg-danger">3</span>
                     </a>
                 </li>
                 <li class="nav-item dropdown user-menu">

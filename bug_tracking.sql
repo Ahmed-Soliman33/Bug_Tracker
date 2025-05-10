@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 09, 2025 at 02:57 PM
+-- Generation Time: May 10, 2025 at 02:16 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -44,15 +44,13 @@ CREATE TABLE `bugs` (
 --
 
 INSERT INTO `bugs` (`id`, `bug_name`, `project_id`, `category`, `details`, `assigned_to`, `status`, `priority`, `created_at`) VALUES
-(43, 'vvsd', 15, 'web', 'sv', 11, 'waiting', 'medium', '2025-05-09 00:33:16'),
-(45, ' ccccc', 15, 'web', ' cxxx', 11, 'in_progress', 'medium', '2025-05-09 00:33:56'),
-(46, 'axs', 15, 'web', 'ead', 12, 'waiting', 'medium', '2025-05-09 00:36:20'),
-(47, 'dsds', 16, 'web', 'dd', 11, 'waiting', 'high', '2025-05-09 00:36:36'),
-(48, 'تلاو', 15, 'web', 'ةةةةةة', 11, 'waiting', 'low', '2025-05-09 01:15:45'),
-(49, 'df', 15, 'web', 'dfs', 12, 'waiting', 'medium', '2025-05-09 01:41:19'),
-(50, 'vvsd', 15, 'web', 'ccccc', 11, 'waiting', 'medium', '2025-05-09 01:41:45'),
-(51, 'axs', 15, 'web', 'dddddd', 11, 'waiting', 'medium', '2025-05-09 01:42:35'),
-(52, 'sdfv', 16, 'mobile', 'fff', 12, 'waiting', 'medium', '2025-05-09 15:25:27');
+(67, 'bug front zzzzz', 17, 'desktop', 'asasassasa', 15, 'solved', 'medium', '2025-05-10 14:26:15'),
+(68, 'bug front ', 17, 'desktop', 'asasas', 15, 'solved', 'high', '2025-05-10 14:28:19'),
+(70, 'sasasas', 17, 'mobile', 'sasas', NULL, 'in_progress', 'high', '2025-05-10 14:29:09'),
+(71, 'vvsdaaaa saaaaaaaaaaaaaaaaaaa  12121sasasas', 17, 'mobile', 'ddsdsddsda asasas', NULL, 'in_progress', 'high', '2025-05-10 14:32:43'),
+(72, 'backend bug2232', 19, 'mobile', 'dsdsdsdsasa', 15, '', 'high', '2025-05-10 14:33:01'),
+(73, 'backend bug', 17, 'desktop', 'sasassas', 15, 'waiting', 'medium', '2025-05-10 14:45:39'),
+(74, 'backend bug', 19, 'desktop', 'assas', 15, 'solved', 'high', '2025-05-10 15:11:02');
 
 -- --------------------------------------------------------
 
@@ -64,6 +62,15 @@ CREATE TABLE `bug_customer` (
   `bug_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `bug_customer`
+--
+
+INSERT INTO `bug_customer` (`bug_id`, `customer_id`) VALUES
+(71, 1),
+(72, 1),
+(73, 1);
 
 -- --------------------------------------------------------
 
@@ -81,15 +88,12 @@ CREATE TABLE `bug_staff` (
 --
 
 INSERT INTO `bug_staff` (`bug_id`, `staff_id`) VALUES
-(43, 11),
-(45, 11),
-(46, 12),
-(47, 11),
-(48, 11),
-(49, 12),
-(50, 11),
-(51, 11),
-(52, 12);
+(67, 15),
+(68, 15),
+(71, 15),
+(72, 15),
+(73, 15),
+(74, 15);
 
 -- --------------------------------------------------------
 
@@ -127,6 +131,14 @@ CREATE TABLE `customer` (
   `customer_created_at` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `customer`
+--
+
+INSERT INTO `customer` (`customer_id`, `customer_name`, `customer_email`, `customer_created_at`) VALUES
+(1, 'احمد عبدالرحمن', 'ahmed@505', '2025-05-09'),
+(2, 'Ahmed Elfares', 'ahmed23@500', '2025-05-09');
+
 -- --------------------------------------------------------
 
 --
@@ -135,11 +147,19 @@ CREATE TABLE `customer` (
 
 CREATE TABLE `messages` (
   `id` int(11) NOT NULL,
-  `chat_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `content` text NOT NULL,
-  `sent_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `bug_id` int(11) NOT NULL,
+  `sender_id` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `sent_at` datetime NOT NULL,
+  `recipient_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `messages`
+--
+
+INSERT INTO `messages` (`id`, `bug_id`, `sender_id`, `message`, `sent_at`, `recipient_id`) VALUES
+(27, 71, 38, 'sasasasas', '2025-05-10 13:45:58', 11);
 
 -- --------------------------------------------------------
 
@@ -160,8 +180,8 @@ CREATE TABLE `projects` (
 --
 
 INSERT INTO `projects` (`project_id`, `project_title`, `project_type`, `project_description`, `created_at`) VALUES
-(15, 'project  1', 'mobile', '363', '2025-05-08 23:11:43'),
-(16, 'project  5', 'mobile', '363+', '2025-05-08 23:11:52');
+(17, 'project  front ', 'mobile', 'ljaojslksahdkadks', '2025-05-10 14:25:38'),
+(19, 'sdsd', 'mobile', 'jojojojoj', '2025-05-10 14:31:09');
 
 -- --------------------------------------------------------
 
@@ -181,8 +201,7 @@ CREATE TABLE `staff` (
 --
 
 INSERT INTO `staff` (`staff_id`, `staff_name`, `staff_email`, `staff_created_at`) VALUES
-(11, 'Ahmed Mostafa', 'ahmed@gmail.com', '2025-05-08'),
-(12, 'Ahmed Salah', 'salah@gmail.com', '2025-05-08');
+(15, 'Ahmed Mostafa', 'ahmed@gmail.com', '2025-05-10');
 
 -- --------------------------------------------------------
 
@@ -205,12 +224,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `created_at`) VALUES
 (11, 'ali', 'ali@500', '123', 'admin', '2025-05-05 23:19:28'),
-(12, 'احمد عبدالرحمن', 'ahmed12@gmail.com', '123', 'customer', '2025-05-06 01:05:47'),
-(23, 'Soliman', 'soliman@500', '123', 'customer', '2025-05-08 14:51:35'),
-(25, 'احمد عبدالرحمن', 'soliman3@500', '123', 'customer', '2025-05-08 14:57:34'),
-(33, 'Ahmed Mostafa', 'ahmed@gmail.com', 'ahmed@gmail.com', 'staff', '2025-05-08 20:57:36'),
-(34, 'Ahmed Salah', 'salah@gmail.com', 'salah@gmail.com', 'staff', '2025-05-08 20:57:41'),
-(36, 'Ahmed salah', 'ali@50000', '123', 'customer', '2025-05-09 15:55:47');
+(38, 'احمد عبدالرحمن', 'ahmed@505', '123', 'customer', '2025-05-09 16:02:25'),
+(39, 'Ahmed Elfares', 'ahmed23@500', '123', 'customer', '2025-05-09 17:42:18'),
+(41, 'Ahmed Mostafa', 'ahmed@gmail.com', 'ahmed@gmail.com', 'staff', '2025-05-10 14:31:27');
 
 --
 -- Indexes for dumped tables
@@ -262,8 +278,9 @@ ALTER TABLE `customer`
 --
 ALTER TABLE `messages`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `chat_id` (`chat_id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `bug_id` (`bug_id`),
+  ADD KEY `sender_id` (`sender_id`),
+  ADD KEY `recipient_id` (`recipient_id`);
 
 --
 -- Indexes for table `projects`
@@ -292,7 +309,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bugs`
 --
 ALTER TABLE `bugs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- AUTO_INCREMENT for table `chats`
@@ -304,31 +321,31 @@ ALTER TABLE `chats`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `staff`
 --
 ALTER TABLE `staff`
-  MODIFY `staff_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `staff_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- Constraints for dumped tables
@@ -366,8 +383,9 @@ ALTER TABLE `chat_user`
 -- Constraints for table `messages`
 --
 ALTER TABLE `messages`
-  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`chat_id`) REFERENCES `chats` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`bug_id`) REFERENCES `bugs` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `messages_ibfk_3` FOREIGN KEY (`recipient_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

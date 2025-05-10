@@ -2,31 +2,37 @@
 class Message
 {
     private $id;
-    private $bugId;
-    private $userId;
+    private $bug_id;
+    private $sender_id;
+    private $recipient_id; // New field
     private $content;
-    private $sentAt;
+    private $sent_at;
 
-    public function __construct($id = 0, $bugId = 0, $userId = 0, $content = '', $sentAt = null)
+    public function __construct($id, $bug_id, $sender_id, $content, $sent_at = null)
     {
         $this->id = $id;
-        $this->bugId = $bugId;
-        $this->userId = $userId;
+        $this->bug_id = $bug_id;
+        $this->sender_id = $sender_id;
         $this->content = $content;
-        $this->sentAt = $sentAt ?? date('Y-m-d H:i:s');
+        $this->sent_at = $sent_at ?? date('Y-m-d H:i:s');
     }
 
+    // Getters
     public function getId()
     {
         return $this->id;
     }
     public function getBugId()
     {
-        return $this->bugId;
+        return $this->bug_id;
     }
     public function getUserId()
     {
-        return $this->userId;
+        return $this->sender_id;
+    }
+    public function getRecipientId()
+    {
+        return $this->recipient_id;
     }
     public function getContent()
     {
@@ -34,28 +40,17 @@ class Message
     }
     public function getSentAt()
     {
-        return $this->sentAt;
+        return $this->sent_at;
     }
 
+    // Setters
     public function setId($id)
     {
         $this->id = $id;
     }
-    public function setBugId($bugId)
+    public function setRecipientId($recipient_id)
     {
-        $this->bugId = $bugId;
-    }
-    public function setUserId($userId)
-    {
-        $this->userId = $userId;
-    }
-    public function setContent($content)
-    {
-        $this->content = $content;
-    }
-    public function setSentAt($sentAt)
-    {
-        $this->sentAt = $sentAt;
+        $this->recipient_id = $recipient_id;
     }
 }
 ?>

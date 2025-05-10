@@ -37,12 +37,13 @@ if (
         !empty($_POST['status']) &&
         !empty($_POST['priority'])
     ) {
+        $assinged_to = isset($_POST['assigned_to']) ? $_POST['assigned_to'] : 0;
         $bug = new Bug(
             $_POST['bug_name'],
             $bugData[0]['project_id'],
             $bugData[0]['category'],
             $_POST['details'],
-            $_POST['assigned_to'],
+            $assinged_to,
             $_POST['status'],
             $_POST['priority']
         );

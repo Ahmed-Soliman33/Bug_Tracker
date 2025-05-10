@@ -9,15 +9,6 @@ $BugController = new BugController;
 $errMsg = '';
 $viewMsg = '';
 
-$sql = "SELECT staff.id AS staff_id, staff.name AS staff_name, bugs.id AS bug_id, bugs.title, bugs.description
-        FROM staff
-        JOIN bug_staff ON staff.id = bug_staff.staff_id
-        JOIN bugs ON bugs.id = bug_staff.bug_id
-        ORDER BY staff.id, bugs.id";
-// $query = "SELECT * FROM users WHERE email = '$email' AND role = 'customer'";
-
-
-
 if (isset($_SESSION["userRole"])) {
     if ($_SESSION["userRole"] == "admin") {
         $viewMsg = "All Bugs";
@@ -53,7 +44,7 @@ if (isset($_SESSION["userRole"])) {
             $customerController = new CustomerController;
             $customer = $customerController->getCustomerByEmail($user[0]["email"]);
             if ($customer) {
-                $result = $BugController->getBugsForCustomer( $customer[0]["customer_id"]);
+                $result = $BugController->getAllBugsForCustomer($customer[0]["customer_id"]);
                 if (!$result) {
                     $errMsg = "Error in fetching Bugs";
                 } else {
@@ -124,11 +115,11 @@ if (isset($_SESSION["userRole"])) {
                                         <td>
                                             <p <?php
                                             if ($bug['status'] == "waiting") {
-                                                echo "class='text-bg-warning text-center' style='margin-top: 10px; border-radius: 50px;'";
+                                                echo "class='text-bg-warning text-center' style='margin-top: 10px; padding: 0px 5px; border-radius: 50px;'";
                                             } else if ($bug["status"] == "in_progress") {
-                                                echo "class='text-bg-info text-center'  style='margin-top: 10px; border-radius: 50px;'";
+                                                echo "class='text-bg-info text-center'  style='margin-top: 10px; padding: 0px 5px;  border-radius: 50px;'";
                                             } else {
-                                                echo "class='text-bg-success text-center'  style='margin-top: 10px; border-radius: 50px;'";
+                                                echo "class='text-bg-success text-center'  style='margin-top: 10px; padding: 0px 5px;  border-radius: 50px;'";
                                             }
                                             ?>>
                                                 <?php echo $bug['status']; ?>

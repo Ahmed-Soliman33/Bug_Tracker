@@ -74,7 +74,7 @@ if (!isset($_SESSION["userRole"])) {
         <div class="container-fluid">
 
           <?php
-    
+
 
 
           if ($page_title == "viewBugs") {
@@ -99,7 +99,7 @@ if (!isset($_SESSION["userRole"])) {
             require_once '../viewStaff.php';
 
           } else if ($page_title == 'chat') {
-            require_once '../chat.php';
+            require_once '../chat/chat.php';
           } else if ($page_title == 'editBug') {
             require_once '../editBug.php';
           } else {

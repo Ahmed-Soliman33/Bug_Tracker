@@ -51,18 +51,20 @@ class CustomerController
 
     public function getCustomerByEmail($email)
     {
-        $this->db = new DBController;
+        $this->db = new DBController();
         if ($this->db->openConnection()) {
-            $query = "SELECT * FROM users WHERE email = '$email' AND role = 'customer'";
-            $result = $this->db->select($query);
+            $query = "SELECT * FROM customer WHERE customer_email = ?";
+            $stmt = $this->db->connection->prepare($query);
+            $stmt->bind_param("s", $email);
+            $stmt->execute();
+            $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+            $stmt->close();
             $this->db->closeConnection();
-            return $result ? $result : false;
-        } else {
-            echo "Error in Database Connection";
-            return false;
+            return $result;
         }
+        return false;
     }
-    
+
 
     public function deleteCustomer($customerId, $customerEmail)
     {
