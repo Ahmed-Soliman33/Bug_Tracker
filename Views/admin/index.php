@@ -11,7 +11,7 @@ if (isset($_GET["page"])) {
 session_start();
 if (!isset($_SESSION["userRole"])) {
 
-  header("location:../auth/login.php ");
+  header("location: ../auth/login.php ");
   exit();
 } else {
   if ($_SESSION["userRole"] != "admin") {
@@ -40,8 +40,7 @@ if (!isset($_SESSION["userRole"])) {
     integrity="sha256-9kPW/n5nn53j4WMRYAxe9c1rCY96Oogo/MKSVdKzPmI=" crossorigin="anonymous" />
   <link rel="stylesheet" href="../assets/css/adminlte.css" />
 </head>
-<!--end::Head-->
-<!--begin::Body-->
+
 
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
   <div class="app-wrapper">

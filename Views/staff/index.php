@@ -40,8 +40,6 @@ require_once "../../Controllers/Utils.php";
     integrity="sha256-9kPW/n5nn53j4WMRYAxe9c1rCY96Oogo/MKSVdKzPmI=" crossorigin="anonymous" />
   <link rel="stylesheet" href="../assets/css/adminlte.css" />
 </head>
-<!--end::Head-->
-<!--begin::Body-->
 
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
   <div class="app-wrapper">
@@ -54,7 +52,6 @@ require_once "../../Controllers/Utils.php";
     require_once '../layouts/header.php';
     ?>
 
-    <!-- Side Bar -->
     <?php
     $currentPage = "staff";
     require_once '../layouts/sidebar.php';
@@ -103,7 +100,6 @@ require_once "../../Controllers/Utils.php";
 
                         <div class="row">
                           <div class="col-lg-3 col-6">
-                            <!-- small box -->
                             <div class="small-box text-bg-primary">
                               <div class="p-4 text-center">
                                 <h3 class="">View Bugs</h3>
@@ -114,9 +110,7 @@ require_once "../../Controllers/Utils.php";
                               </a>
                             </div>
                           </div>
-                          <!-- ./col -->
                           <div class="col-lg-3 col-6">
-                            <!-- small box -->
                             <div class="small-box text-bg-success">
                               <div class="p-4 text-center">
                                 <h3 class="">Messages</h3>
@@ -127,9 +121,7 @@ require_once "../../Controllers/Utils.php";
                               </a>
                             </div>
                           </div>
-                          <!-- ./col -->
                           <div class="col-lg-3 col-6">
-                            <!-- small box -->
                             <div class="small-box text-white bg-warning">
 
                               <div class="p-4 text-center">
@@ -152,7 +144,6 @@ require_once "../../Controllers/Utils.php";
 
         </div>
     </main>
-    <!-- Footer -->
     <?php
     require_once '../layouts/footer.php';
     ?>

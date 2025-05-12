@@ -4,7 +4,7 @@ class Message
     private $id;
     private $bug_id;
     private $sender_id;
-    private $recipient_id; // New field
+    private $recipient_id;
     private $content;
     private $sent_at;
 
@@ -17,7 +17,6 @@ class Message
         $this->sent_at = $sent_at ?? date('Y-m-d H:i:s');
     }
 
-    // Getters
     public function getId()
     {
         return $this->id;
@@ -42,8 +41,6 @@ class Message
     {
         return $this->sent_at;
     }
-
-    // Setters
     public function setId($id)
     {
         $this->id = $id;

@@ -13,7 +13,6 @@ $errMsg = $_SESSION['errMsg'] ?? '';
 $successMsg = $_SESSION['successMsg'] ?? '';
 unset($_SESSION['errMsg'], $_SESSION['successMsg']);
 
-// Handle form submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && $user_id && $user_role) {
     $bug_id = $_POST['bug_id'] ?? null;
     $recipient_id = $_POST['recipient_id'] ?? null;
@@ -35,7 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && $user_id && $user_role) {
     }
 }
 
-// Load bugs for the select dropdown
 $bugs = [];
 $authController = new AuthController();
 $bugController = new BugController();
@@ -86,7 +84,6 @@ if ($user_id && $user_role) {
     }
 }
 
-// Load received messages
 $received_messages = [];
 if ($user_id && $user_role) {
     $messageController = new MessageController();

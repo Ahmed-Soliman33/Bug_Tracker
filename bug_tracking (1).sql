@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 10, 2025 at 02:16 PM
+-- Generation Time: May 13, 2025 at 12:52 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -44,13 +44,8 @@ CREATE TABLE `bugs` (
 --
 
 INSERT INTO `bugs` (`id`, `bug_name`, `project_id`, `category`, `details`, `assigned_to`, `status`, `priority`, `created_at`) VALUES
-(67, 'bug front zzzzz', 17, 'desktop', 'asasassasa', 15, 'solved', 'medium', '2025-05-10 14:26:15'),
-(68, 'bug front ', 17, 'desktop', 'asasas', 15, 'solved', 'high', '2025-05-10 14:28:19'),
-(70, 'sasasas', 17, 'mobile', 'sasas', NULL, 'in_progress', 'high', '2025-05-10 14:29:09'),
-(71, 'vvsdaaaa saaaaaaaaaaaaaaaaaaa  12121sasasas', 17, 'mobile', 'ddsdsddsda asasas', NULL, 'in_progress', 'high', '2025-05-10 14:32:43'),
-(72, 'backend bug2232', 19, 'mobile', 'dsdsdsdsasa', 15, '', 'high', '2025-05-10 14:33:01'),
-(73, 'backend bug', 17, 'desktop', 'sasassas', 15, 'waiting', 'medium', '2025-05-10 14:45:39'),
-(74, 'backend bug', 19, 'desktop', 'assas', 15, 'solved', 'high', '2025-05-10 15:11:02');
+(79, 'backend bug salah', 20, 'desktop', 'asasass', 16, 'solved', 'high', '2025-05-12 23:28:19'),
+(81, 'backend bug tarek', 22, 'mobile', 'asasas', NULL, 'solved', 'high', '2025-05-12 23:56:23');
 
 -- --------------------------------------------------------
 
@@ -62,15 +57,6 @@ CREATE TABLE `bug_customer` (
   `bug_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `bug_customer`
---
-
-INSERT INTO `bug_customer` (`bug_id`, `customer_id`) VALUES
-(71, 1),
-(72, 1),
-(73, 1);
 
 -- --------------------------------------------------------
 
@@ -88,35 +74,8 @@ CREATE TABLE `bug_staff` (
 --
 
 INSERT INTO `bug_staff` (`bug_id`, `staff_id`) VALUES
-(67, 15),
-(68, 15),
-(71, 15),
-(72, 15),
-(73, 15),
-(74, 15);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `chats`
---
-
-CREATE TABLE `chats` (
-  `id` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `chat_user`
---
-
-CREATE TABLE `chat_user` (
-  `chat_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+(79, 16),
+(81, 19);
 
 -- --------------------------------------------------------
 
@@ -137,7 +96,8 @@ CREATE TABLE `customer` (
 
 INSERT INTO `customer` (`customer_id`, `customer_name`, `customer_email`, `customer_created_at`) VALUES
 (1, 'احمد عبدالرحمن', 'ahmed@505', '2025-05-09'),
-(2, 'Ahmed Elfares', 'ahmed23@500', '2025-05-09');
+(2, 'Ahmed Elfares', 'ahmed23@500', '2025-05-09'),
+(3, 'thabet', 'thabet@500', '2025-05-12');
 
 -- --------------------------------------------------------
 
@@ -159,7 +119,8 @@ CREATE TABLE `messages` (
 --
 
 INSERT INTO `messages` (`id`, `bug_id`, `sender_id`, `message`, `sent_at`, `recipient_id`) VALUES
-(27, 71, 38, 'sasasasas', '2025-05-10 13:45:58', 11);
+(30, 79, 42, 'عامل ايه ي رياسة ', '2025-05-12 22:29:33', 11),
+(31, 79, 11, 'كويس يعلق', '2025-05-12 22:30:04', 42);
 
 -- --------------------------------------------------------
 
@@ -180,8 +141,9 @@ CREATE TABLE `projects` (
 --
 
 INSERT INTO `projects` (`project_id`, `project_title`, `project_type`, `project_description`, `created_at`) VALUES
-(17, 'project  front ', 'mobile', 'ljaojslksahdkadks', '2025-05-10 14:25:38'),
-(19, 'sdsd', 'mobile', 'jojojojoj', '2025-05-10 14:31:09');
+(20, 'project  5', 'mobile', 'qwqwqwqw', '2025-05-12 23:25:21'),
+(21, 'project  4', 'desktop', 'sdsdadad', '2025-05-12 23:25:30'),
+(22, 'front end dev', 'desktop', 'asasasas', '2025-05-12 23:53:10');
 
 -- --------------------------------------------------------
 
@@ -201,7 +163,10 @@ CREATE TABLE `staff` (
 --
 
 INSERT INTO `staff` (`staff_id`, `staff_name`, `staff_email`, `staff_created_at`) VALUES
-(15, 'Ahmed Mostafa', 'ahmed@gmail.com', '2025-05-10');
+(15, 'Ahmed Mostafa', 'ahmed@gmail.com', '2025-05-10'),
+(16, 'Ahmed Salah', 'salah@gmail.com', '2025-05-12'),
+(18, 'SASA', 'sasa@gmail.com', '2025-05-12'),
+(19, 'Tarek ', 'tarek@gmail.com', '2025-05-12');
 
 -- --------------------------------------------------------
 
@@ -226,7 +191,11 @@ INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `created_at`) VA
 (11, 'ali', 'ali@500', '123', 'admin', '2025-05-05 23:19:28'),
 (38, 'احمد عبدالرحمن', 'ahmed@505', '123', 'customer', '2025-05-09 16:02:25'),
 (39, 'Ahmed Elfares', 'ahmed23@500', '123', 'customer', '2025-05-09 17:42:18'),
-(41, 'Ahmed Mostafa', 'ahmed@gmail.com', 'ahmed@gmail.com', 'staff', '2025-05-10 14:31:27');
+(41, 'Ahmed Mostafa', 'ahmed@gmail.com', 'ahmed@gmail.com', 'staff', '2025-05-10 14:31:27'),
+(42, 'Ahmed Salah', 'salah@gmail.com', 'salah@gmail.com', 'staff', '2025-05-12 23:25:47'),
+(44, 'SASA', 'sasa@gmail.com', 'sasa@gmail.com', 'staff', '2025-05-12 23:26:07'),
+(45, 'Tarek ', 'tarek@gmail.com', 'tarek@gmail.com', 'staff', '2025-05-12 23:54:03'),
+(46, 'thabet', 'thabet@500', '123', 'customer', '2025-05-12 23:58:04');
 
 --
 -- Indexes for dumped tables
@@ -253,19 +222,6 @@ ALTER TABLE `bug_customer`
 ALTER TABLE `bug_staff`
   ADD PRIMARY KEY (`bug_id`,`staff_id`),
   ADD KEY `staff_id` (`staff_id`);
-
---
--- Indexes for table `chats`
---
-ALTER TABLE `chats`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `chat_user`
---
-ALTER TABLE `chat_user`
-  ADD PRIMARY KEY (`chat_id`,`user_id`),
-  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `customer`
@@ -309,43 +265,37 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bugs`
 --
 ALTER TABLE `bugs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
-
---
--- AUTO_INCREMENT for table `chats`
---
-ALTER TABLE `chats`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 
 --
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `project_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `staff`
 --
 ALTER TABLE `staff`
-  MODIFY `staff_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `staff_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- Constraints for dumped tables
@@ -371,13 +321,6 @@ ALTER TABLE `bug_customer`
 ALTER TABLE `bug_staff`
   ADD CONSTRAINT `bug_staff_ibfk_1` FOREIGN KEY (`bug_id`) REFERENCES `bugs` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `bug_staff_ibfk_2` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`staff_id`) ON DELETE CASCADE;
-
---
--- Constraints for table `chat_user`
---
-ALTER TABLE `chat_user`
-  ADD CONSTRAINT `chat_user_ibfk_1` FOREIGN KEY (`chat_id`) REFERENCES `chats` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `chat_user_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `messages`

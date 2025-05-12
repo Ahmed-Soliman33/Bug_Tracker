@@ -9,22 +9,17 @@ class MessageController
 {
     protected $db;
 
-    // Send a new message
     public function sendMessage(Message $message, $user_role)
     {
         $this->db = new DBController();
         if ($this->db->openConnection()) {
-            // Get bug_id and sender_id
             $bug_id = $message->getBugId();
             $sender_id = $message->getUserId();
 
-            // Debug: Log input values
             error_log("sendMessage: bug_id=$bug_id, sender_id=$sender_id, user_role=$user_role");
 
-            // Validate access to the bug
             $query = "SELECT b.id FROM bugs b";
             if ($user_role == 'customer') {
-                // Get customer_id from customers table using email
                 $authController = new AuthController();
                 $user = $authController->getUserById($sender_id);
                 if (!$user) {
@@ -41,12 +36,10 @@ class MessageController
                 }
                 $customer_id = $customer[0]["customer_id"];
 
-                // Debug: Log customer_id
                 error_log("sendMessage: customer_id=$customer_id");
 
                 $query .= " INNER JOIN bug_customer bc ON b.id = bc.bug_id WHERE b.id = ? AND bc.customer_id = ?";
             } elseif ($user_role == 'staff') {
-                // Get staff_id from staff table using email
                 $authController = new AuthController();
                 $user = $authController->getUserById($sender_id);
                 if (!$user) {
@@ -63,7 +56,6 @@ class MessageController
                 }
                 $staff_id = $staff[0]["staff_id"];
 
-                // Debug: Log staff_id
                 error_log("sendMessage: staff_id=$staff_id");
 
                 $query .= " INNER JOIN bug_staff bs ON b.id = bs.bug_id WHERE b.id = ? AND bs.staff_id = ?";
@@ -83,7 +75,6 @@ class MessageController
             $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
             $stmt->close();
 
-            // Debug: Log query result
             error_log("sendMessage: Bug validation result=" . json_encode($result));
 
             if (count($result) == 0) {
@@ -92,7 +83,6 @@ class MessageController
                 return false;
             }
 
-            // Validate recipient
             $recipient_id = $message->getRecipientId();
             $query = "SELECT id FROM users WHERE id = ? AND role IN ('admin', 'staff', 'customer')";
             $stmt = $this->db->connection->prepare($query);
@@ -107,7 +97,6 @@ class MessageController
                 return false;
             }
 
-            // Insert the message
             $query = "INSERT INTO messages (bug_id, sender_id, recipient_id, message, sent_at) VALUES (?, ?, ?, ?, ?)";
             $stmt = $this->db->connection->prepare($query);
             $content = $message->getContent();
@@ -130,7 +119,6 @@ class MessageController
         }
     }
 
-    // Get messages received by the user
     public function getUserMessages($user_id, $user_role)
     {
         $this->db = new DBController();
@@ -141,7 +129,6 @@ class MessageController
                       JOIN bugs b ON m.bug_id = b.id 
                       WHERE m.recipient_id = ?";
             if ($user_role == 'customer') {
-                // Get customer_id from customers table using email
                 $authController = new AuthController();
                 $user = $authController->getUserById($user_id);
                 if (!$user) {
@@ -158,7 +145,6 @@ class MessageController
 
                 $query .= " AND m.bug_id IN (SELECT bug_id FROM bug_customer WHERE customer_id = ?)";
             } elseif ($user_role == 'staff') {
-                // Get staff_id from staff table using email
                 $authController = new AuthController();
                 $user = $authController->getUserById($user_id);
                 if (!$user) {
@@ -193,7 +179,6 @@ class MessageController
             $stmt->close();
             $this->db->closeConnection();
 
-            // Debug: Log fetched messages
             error_log("Fetched messages for user_id=$user_id, role=$user_role: " . json_encode($messages));
 
             return $messages;

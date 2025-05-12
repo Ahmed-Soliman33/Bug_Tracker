@@ -1,5 +1,4 @@
 <?php
-// Start session at the beginning
 session_start();
 
 require_once '../../Models/User.php';
@@ -7,15 +6,12 @@ require_once '../../Controllers/AuthController.php';
 
 $errMsg = "";
 
-// Handle logout
 if (isset($_GET["logout"])) {
   session_destroy();
-  // Optionally redirect to login page after logout
   header("location: login.php");
   exit();
 }
 
-// Handle login
 if (isset($_POST['email']) && isset($_POST['password'])) {
   if (!empty($_POST['email']) && !empty($_POST['password'])) {
     $user = new User("", $_POST['email'], $_POST['password'], "");

@@ -10,20 +10,17 @@ $projects = [];
 $allStaff = [];
 $bugData = [];
 
-// Load all necessary data
 $projectController = new ProjectController;
 $staffController = new StaffController;
 
 $projects = $projectController->getAllProjects();
 $allStaff = $staffController->getAllStaff();
 
-// Check if editId is set
 if (isset($_SESSION["editId"]) && !empty($_SESSION["editId"])) {
     $bugController = new BugController;
     $bugData = $bugController->getBugById($_SESSION["editId"]);
 }
 
-// Handle update form submission
 if (
     isset($_POST['bug_name']) &&
     isset($_POST['details']) &&

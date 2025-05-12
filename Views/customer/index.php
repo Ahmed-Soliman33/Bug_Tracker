@@ -40,8 +40,7 @@ if (!isset($_SESSION["userRole"])) {
     integrity="sha256-9kPW/n5nn53j4WMRYAxe9c1rCY96Oogo/MKSVdKzPmI=" crossorigin="anonymous" />
   <link rel="stylesheet" href="../assets/css/adminlte.css" />
 </head>
-<!--end::Head-->
-<!--begin::Body-->
+
 
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
   <div class="app-wrapper">
@@ -54,7 +53,6 @@ if (!isset($_SESSION["userRole"])) {
     require_once '../layouts/header.php';
     ?>
 
-    <!-- Side Bar -->
     <?php
     $currentPage = "customer";
     require_once '../layouts/sidebar.php';
@@ -122,21 +120,6 @@ if (!isset($_SESSION["userRole"])) {
                                 <h3 class="">Add Project</h3>
                               </div>
                               <a href="index.php?page=addProject"
-                                class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
-                                Go to page <i class="bi bi-link-45deg"></i>
-                              </a>
-                            </div>
-                          </div>
-                          <!-- ./col -->
-                          <div class="col-lg-3 col-6">
-                            <!-- small box -->
-                            <div class="small-box text-white bg-warning">
-
-                              <div class="p-4 text-center">
-                                <h3 class="">View Project</h3>
-                              </div>
-
-                              <a href="index.php?page=viewProject"
                                 class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
                                 Go to page <i class="bi bi-link-45deg"></i>
                               </a>

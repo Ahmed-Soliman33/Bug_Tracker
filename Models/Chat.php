@@ -2,7 +2,7 @@
 class Chat
 {
     private $bugId;
-    public $messages; // Made public for simplicity in view access
+    public $messages;
 
     public function __construct($bugId = 0, $messages = [])
     {
