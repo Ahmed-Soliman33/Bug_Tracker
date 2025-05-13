@@ -22,15 +22,9 @@ class AuthController
                     $this->db->closeConnection();
                     return false;
                 } else {
-                    if ($result[0]["role"] == "staff") {
-                        $_SESSION["userId"] = $result[0]["id"];
-                        $_SESSION["userName"] = $result[0]["name"];
-                        $_SESSION["userRole"] = $result[0]["role"];
-                    } else {
-                        $_SESSION["userId"] = $result[0]["id"];
-                        $_SESSION["userName"] = $result[0]["name"];
-                        $_SESSION["userRole"] = $result[0]["role"];
-                    }
+                    $_SESSION["userId"] = $result[0]["id"];
+                    $_SESSION["userName"] = $result[0]["name"];
+                    $_SESSION["userRole"] = $result[0]["role"];
                     $this->db->closeConnection();
                     return true;
                 }
